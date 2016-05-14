@@ -1,0 +1,5 @@
+1. Create a console based core version of the application
+
+2. Create an updatable database to store the application data
+
+3. Create an MVC version of the application

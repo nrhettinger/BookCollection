@@ -1,0 +1,20 @@
+1. Need a class for the books
+
+	Need properties for:
+
+		ISBN
+		Author
+		Genre
+		Year
+		Review
+		Series
+
+2. Need an collection list to hold the instances of the book classes
+
+3. Need functions for:
+
+	Adding books to the collection 
+	Removing books 
+	Editing books
+	Searching for books
+	Displaying books
