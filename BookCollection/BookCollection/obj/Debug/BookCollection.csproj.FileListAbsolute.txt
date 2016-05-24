@@ -1,1 +1,6 @@
 C:\Users\Terry\Documents\Projects\Book Collection\BookCollection\BookCollection\bin\Debug\BookCollection.exe.config
+C:\Users\Terry\Documents\Projects\Book Collection\BookCollection\BookCollection\bin\Debug\BookCollection.exe
+C:\Users\Terry\Documents\Projects\Book Collection\BookCollection\BookCollection\bin\Debug\BookCollection.pdb
+C:\Users\Terry\Documents\Projects\Book Collection\BookCollection\BookCollection\obj\Debug\BookCollection.csprojResolveAssemblyReference.cache
+C:\Users\Terry\Documents\Projects\Book Collection\BookCollection\BookCollection\obj\Debug\BookCollection.exe
+C:\Users\Terry\Documents\Projects\Book Collection\BookCollection\BookCollection\obj\Debug\BookCollection.pdb
