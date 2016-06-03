@@ -12,34 +12,31 @@ namespace BookCollection
         {
             //string response = Console.ReadLine();
             bool menuBreaker = false;
-            do
+            while (menuBreaker == false)
             {
                 Console.WriteLine("Welcome to the book collection, what would you like to do?");
                 Console.WriteLine("C: Create a new book");
                 Console.WriteLine("V: View collection");
                 Console.WriteLine("Q: Quit the application");
-                Console.Read();
-                string response = Console.ReadLine();
-                if (response == "C")
-                {
-                    Book newBook = new Book();
-                    Book.createNewBook(newBook);
-                    Book.addNewBook(newBook);
+                string response = Console.ReadLine().ToUpper();
+                switch (response) { 
+                    case "C":
+                        Book newBook = new Book();
+                        Book.createNewBook(newBook);
+                        Book.addNewBook(newBook);
+                        break;
+                    case "V":
+                        Book.viewAllBooks();
+                        break;
+                    case "Q":
+                        menuBreaker = true;
+                        break;
+                    default:
+                        Console.WriteLine("Select one of the options.");
+                        Console.ReadLine();
+                        break;
                 }
-                else if (response == "V")
-                {
-                    Book.viewAllBooks();
-                }
-                else if (response == "Q")
-                {
-                    menuBreaker = true;
-                }
-                else
-                {
-                    Console.WriteLine("Select one of the options.");
-                    Console.ReadLine();
-                }
-            } while (menuBreaker == false);
+            } 
         }
     }
 
@@ -79,10 +76,10 @@ namespace BookCollection
                 foreach (Book book in myBookCollection)
                 {
                 Console.WriteLine("Title: {0}| Author: {1}| Review: {2}", book.Title, book.Author, book.Review);
-                Console.ReadLine();
                 }
-            }
-        
+            Console.ReadLine();
+        }
+
     }
 }      
 
