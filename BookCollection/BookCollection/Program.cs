@@ -10,21 +10,36 @@ namespace BookCollection
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the book collection, what would you like to do?");
-            string Response = Console.ReadLine();
-            if (Response == "Create a new book")
+            //string response = Console.ReadLine();
+            bool menuBreaker = false;
+            do
             {
-                Book newBook = new Book();
-                Book.createNewBook(newBook);
-                Book.addNewBook(newBook);
-                Book.viewAllBooks();
-            }
-            else if (Response == "View collection")
-            {
-                Book.viewAllBooks();
-            }
-
-        
+                Console.WriteLine("Welcome to the book collection, what would you like to do?");
+                Console.WriteLine("C: Create a new book");
+                Console.WriteLine("V: View collection");
+                Console.WriteLine("Q: Quit the application");
+                Console.Read();
+                string response = Console.ReadLine();
+                if (response == "C")
+                {
+                    Book newBook = new Book();
+                    Book.createNewBook(newBook);
+                    Book.addNewBook(newBook);
+                }
+                else if (response == "V")
+                {
+                    Book.viewAllBooks();
+                }
+                else if (response == "Q")
+                {
+                    menuBreaker = true;
+                }
+                else
+                {
+                    Console.WriteLine("Select one of the options.");
+                    Console.ReadLine();
+                }
+            } while (menuBreaker == false);
         }
     }
 
