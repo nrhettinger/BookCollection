@@ -75,7 +75,6 @@ namespace BookCollection
             {
                 Console.WriteLine("Title: {0}| Author: {1}| Review: {2}", book.Title, book.Author, book.Review);
             }
-            //Console.ReadLine();
         }
     }
 }      
