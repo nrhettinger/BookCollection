@@ -17,6 +17,7 @@ namespace BookCollection
                 Console.WriteLine("C: Create a new book");
                 Console.WriteLine("V: View collection");
                 Console.WriteLine("Q: Quit the application");
+                Console.WriteLine("S: Search collection");
                 string response = Console.ReadLine().ToUpper();
                 switch (response) {
                     case "V":
@@ -29,6 +30,9 @@ namespace BookCollection
                         break;
                     case "Q":
                         menuBreaker = true; //changes the menubreaker value, setting the while condition false and breaking the loop
+                        break;
+                    case "S":
+                        Book.searchBooks();
                         break;
                     default:
                         Console.WriteLine("Select one of the options:");
@@ -75,6 +79,40 @@ namespace BookCollection
             {
                 Console.WriteLine("Title: {0}| Author: {1}| Review: {2}", book.Title, book.Author, book.Review);
             }
+        }
+
+        public static void searchBooks()
+        {
+            Console.WriteLine("Search by the following:");
+            Console.WriteLine("T: Title");
+            Console.WriteLine("A: Author");
+            Console.WriteLine("I: ISBN");
+            string response = Console.ReadLine().ToUpper();
+            switch (response)
+            {
+                case "T":
+                    Console.WriteLine("Enter the title you are searching for: ");
+                    string title = Console.ReadLine();
+                    var results = from book in myBookCollection
+                                  where book.Title.Contains(title)
+                                  select book;
+                    foreach (Book book in results)
+                    {
+                        Console.WriteLine("Title: {0}| Series: {1}| Author: {2}| Review: {3}", 
+                                           book.Title, book.Series, book.Author, book.Review);
+                    }
+                    break;
+                case "A":
+                    Book newBook = new Book();
+                    Book.createNewBook(newBook);
+                    Book.addNewBook(newBook);
+                    break;
+                case "I":
+                    break;
+                default:
+                    Console.WriteLine("Select one of the options:");
+                    break;
+            } 
         }
     }
 }      
