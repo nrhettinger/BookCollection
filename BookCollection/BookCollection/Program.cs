@@ -93,21 +93,38 @@ namespace BookCollection
                 case "T":
                     Console.WriteLine("Enter the title you are searching for: ");
                     string title = Console.ReadLine();
-                    var results = from book in myBookCollection
-                                  where book.Title.Contains(title)
-                                  select book;
-                    foreach (Book book in results)
+                    var resultsTitle = from book in myBookCollection
+                                       where book.Title.Contains(title)
+                                       select book;
+                    foreach (Book book in resultsTitle)
                     {
-                        Console.WriteLine("Title: {0}| Series: {1}| Author: {2}| Review: {3}", 
+                        Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
                                            book.Title, book.Series, book.Author, book.Review);
                     }
                     break;
                 case "A":
-                    Book newBook = new Book();
-                    Book.createNewBook(newBook);
-                    Book.addNewBook(newBook);
+                    Console.WriteLine("Enter the author you are searching for: ");
+                    string author = Console.ReadLine();
+                    var resultsAuthor = from book in myBookCollection
+                                    where book.Author.Contains(author)
+                                    select book;
+                    foreach (Book book in resultsAuthor)
+                    {
+                        Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
+                                           book.Title, book.Series, book.Author, book.Review);
+                    }
                     break;
                 case "I":
+                    Console.WriteLine("Enter the ISBN you are searching for: ");
+                    var isbn = Convert.ToInt64(Console.ReadLine());
+                    var resultsIsbn = from book in myBookCollection
+                                  where book.ISBN == isbn
+                                  select book;
+                    foreach (Book book in resultsIsbn)
+                    {
+                        Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
+                                           book.Title, book.Series, book.Author, book.Review);
+                    }
                     break;
                 default:
                     Console.WriteLine("Select one of the options:");
