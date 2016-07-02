@@ -46,7 +46,7 @@ namespace BookCollection
     {
         public string Title { get; set; }
         public string Series { get; set; }
-        public int ISBN { get; set; }
+        public string ISBN { get; set; }
         public string Author { get; set; }
         public string Review { get; set; }
 
@@ -57,7 +57,7 @@ namespace BookCollection
             Console.WriteLine("What series is this book part of? If not part of any, say 'None'.");
             newBook.Series = Console.ReadLine();
             Console.WriteLine("What is the ISBN? If unknown say '00'");
-            newBook.ISBN = Convert.ToInt32(Console.ReadLine());
+            newBook.ISBN = Console.ReadLine();
             Console.WriteLine("Who is the Author?");
             newBook.Author = Console.ReadLine();
             Console.WriteLine("What is your review of the book? If you have not read it or do not want to write a review, say 'N/A'.");
