@@ -47,7 +47,8 @@ namespace BookCollection
         public string Title { get; set; }
         public string Series { get; set; }
         public string ISBN { get; set; }
-        public string Author { get; set; }
+        public string AuthorFirst { get; set; }
+        public string AuthorLast { get; set; }
         public string Review { get; set; }
 
         public static Book createNewBook(Book newBook) //scope, association with object, return type, function name, parameter type and name
@@ -58,8 +59,10 @@ namespace BookCollection
             newBook.Series = Console.ReadLine();
             Console.WriteLine("What is the ISBN? If unknown say '00'");
             newBook.ISBN = Console.ReadLine();
-            Console.WriteLine("Who is the Author?");
-            newBook.Author = Console.ReadLine();
+            Console.WriteLine("Who is the author? First name is:");
+            newBook.AuthorFirst = Console.ReadLine();
+            Console.WriteLine("Who is the author? Last name is:");
+            newBook.AuthorLast = Console.ReadLine();
             Console.WriteLine("What is your review of the book? If you have not read it or do not want to write a review, say 'N/A'.");
             newBook.Review = Console.ReadLine();
             return newBook;
@@ -77,7 +80,7 @@ namespace BookCollection
         {
             foreach (Book book in myBookCollection)
             {
-                Console.WriteLine("Title: {0}| Author: {1}| Review: {2}", book.Title, book.Author, book.Review);
+                Console.WriteLine("Title: {0}| Author: {1}| Review: {2}", book.Title, book.AuthorFirst + " " + book.AuthorLast, book.Review);
             }
         }
 
@@ -99,31 +102,34 @@ namespace BookCollection
                     foreach (Book book in resultsTitle)
                     {
                         Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
-                                           book.Title, book.Series, book.Author, book.Review);
+                                           book.Title, book.Series, book.AuthorFirst + " " + book.AuthorLast, book.Review);
                     }
                     break;
                 case "A":
-                    Console.WriteLine("Enter the author you are searching for: ");
-                    string author = Console.ReadLine();
+                    Console.WriteLine("Enter the first name of the author you are searching for: ");
+                    string authorFirst = Console.ReadLine();
+                    Console.WriteLine("Enter the last name of the author you are searching for: ");
+                    string authorLast = Console.ReadLine();
                     var resultsAuthor = from book in myBookCollection
-                                    where book.Author.Contains(author)
+                                    where book.AuthorFirst.Contains(authorFirst) && 
+                                    book.AuthorLast.Contains(authorLast)
                                     select book;
                     foreach (Book book in resultsAuthor)
                     {
                         Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
-                                           book.Title, book.Series, book.Author, book.Review);
+                                           book.Title, book.Series, book.AuthorFirst + " " + book.AuthorLast, book.Review);
                     }
                     break;
                 case "I":
                     Console.WriteLine("Enter the ISBN you are searching for: ");
-                    var isbn = Convert.ToInt64(Console.ReadLine());
+                    var isbn = Console.ReadLine();
                     var resultsIsbn = from book in myBookCollection
                                   where book.ISBN == isbn
                                   select book;
                     foreach (Book book in resultsIsbn)
                     {
                         Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
-                                           book.Title, book.Series, book.Author, book.Review);
+                                           book.Title, book.Series, book.AuthorFirst + " " + book.AuthorLast, book.Review);
                     }
                     break;
                 default:
