@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient; //tells program to use these specified classes to connect to an SQL database
 
 namespace BookCollection
 {
@@ -10,35 +11,41 @@ namespace BookCollection
     {
         static void Main(string[] args)
         {
-            bool menuBreaker = false;
-            Console.WriteLine("Welcome to the book collection, what would you like to do?");
-            while (menuBreaker == false)
+            using (SqlConnection conn = new SqlConnection())
             {
-                Console.WriteLine("C: Create a new book");
-                Console.WriteLine("V: View collection");
-                Console.WriteLine("Q: Quit the application");
-                Console.WriteLine("S: Search collection");
-                string response = Console.ReadLine().ToUpper();
-                switch (response) {
-                    case "V":
-                        Book.viewAllBooks();
-                        break;
-                    case "C":
-                        Book newBook = new Book();
-                        Book.createNewBook(newBook);
-                        Book.addNewBook(newBook);
-                        break;
-                    case "Q":
-                        menuBreaker = true; //changes the menubreaker value, setting the while condition false and breaking the loop
-                        break;
-                    case "S":
-                        Book.searchBooks();
-                        break;
-                    default:
-                        Console.WriteLine("Select one of the options:");
-                        break;
+                conn.ConnectionString = "Server=TERRY-PC; Database=BookCollection; Trusted_Connection=true";
+                conn.Open();
+                bool menuBreaker = false;
+                Console.WriteLine("Welcome to the book collection, what would you like to do?");
+                while (menuBreaker == false)
+                {
+                    Console.WriteLine("C: Create a new book");
+                    Console.WriteLine("V: View collection");
+                    Console.WriteLine("Q: Quit the application");
+                    Console.WriteLine("S: Search collection");
+                    string response = Console.ReadLine().ToUpper();
+                    switch (response)
+                    {
+                        case "V":
+                            Book.viewAllBooks();
+                            break;
+                        case "C":
+                            Book newBook = new Book();
+                            Book.createNewBook(newBook);
+                            Book.addNewBook(newBook);
+                            break;
+                        case "Q":
+                            menuBreaker = true; //changes the menubreaker value, setting the while condition false and breaking the loop
+                            break;
+                        case "S":
+                            Book.searchBooks();
+                            break;
+                        default:
+                            Console.WriteLine("Select one of the options:");
+                            break;
+                    }
                 }
-            } 
+            }
         }
     }
 
@@ -78,9 +85,16 @@ namespace BookCollection
 
         public static void viewAllBooks()
         {
-            foreach (Book book in myBookCollection)
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = "Server=TERRY-PC; Database=BookCollection; Trusted_Connection=true";
+            conn.Open();
+            SqlCommand viewAllBooks = new SqlCommand("Select * from Books join Authors on Author=A_ID", conn);
+            using (SqlDataReader reader = viewAllBooks.ExecuteReader())
             {
-                Console.WriteLine("Title: {0}| Author: {1}| Review: {2}", book.Title, book.AuthorFirst + " " + book.AuthorLast, book.Review);
+                while (reader.Read())
+                {
+                    Console.WriteLine("\nTitle: {0}| ISBN: {1}| Author: {2}| Review: {3}\n", reader[1], reader[0], reader[6] + " " + reader[7], reader[4]);
+                }
             }
         }
 
