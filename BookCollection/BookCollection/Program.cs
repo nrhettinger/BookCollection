@@ -11,10 +11,7 @@ namespace BookCollection
     {
         static void Main(string[] args)
         {
-            using (SqlConnection conn = new SqlConnection())
-            {
-                conn.ConnectionString = "Server=TERRY-PC; Database=BookCollection; Trusted_Connection=true";
-                conn.Open();
+                Database.bookCollectionConnection();
                 bool menuBreaker = false;
                 Console.WriteLine("Welcome to the book collection, what would you like to do?");
                 while (menuBreaker == false)
@@ -45,8 +42,19 @@ namespace BookCollection
                             break;
                     }
                 }
-            }
         }
+    }
+
+    public class Database
+    {
+        public static void bookCollectionConnection()
+        {
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = "Server=TERRY-PC; Database=BookCollection; Trusted_Connection=true";
+            conn.Open();
+        }
+    }
+
     }
 
     public class Book
@@ -152,5 +160,6 @@ namespace BookCollection
             } 
         }
     }
-}      
+
+      
 
