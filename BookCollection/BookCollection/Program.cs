@@ -11,7 +11,6 @@ namespace BookCollection
     {
         static void Main(string[] args)
         {
-            Database.bookCollectionConnection();
             bool menuBreaker = false;
             Console.WriteLine("Welcome to the book collection, what would you like to do?");
             while (menuBreaker == false)
@@ -47,15 +46,14 @@ namespace BookCollection
 
     public class Database
     {
-        public static void bookCollectionConnection()
+        public static SqlConnection bookCollectionConnection()
         {
             SqlConnection conn = new SqlConnection();
             conn.ConnectionString = "Server=TERRY-PC; Database=BookCollection; Trusted_Connection=true";
             conn.Open();
+            return conn;
         }
     }
-
-
 
     public class Book
     {
@@ -93,9 +91,7 @@ namespace BookCollection
 
         public static void viewAllBooks()
         {
-            SqlConnection conn = new SqlConnection();
-            conn.ConnectionString = "Server=TERRY-PC; Database=BookCollection; Trusted_Connection=true";
-            conn.Open();
+            SqlConnection conn = Database.bookCollectionConnection();
             SqlCommand viewAllBooks = new SqlCommand("Select * from Books join Authors on Author=A_ID", conn);
             using (SqlDataReader reader = viewAllBooks.ExecuteReader())
             {
