@@ -11,37 +11,37 @@ namespace BookCollection
     {
         static void Main(string[] args)
         {
-                Database.bookCollectionConnection();
-                bool menuBreaker = false;
-                Console.WriteLine("Welcome to the book collection, what would you like to do?");
-                while (menuBreaker == false)
+            Database.bookCollectionConnection();
+            bool menuBreaker = false;
+            Console.WriteLine("Welcome to the book collection, what would you like to do?");
+            while (menuBreaker == false)
+            {
+                Console.WriteLine("C: Create a new book");
+                Console.WriteLine("V: View collection");
+                Console.WriteLine("Q: Quit the application");
+                Console.WriteLine("S: Search collection");
+                string response = Console.ReadLine().ToUpper();
+                switch (response)
                 {
-                    Console.WriteLine("C: Create a new book");
-                    Console.WriteLine("V: View collection");
-                    Console.WriteLine("Q: Quit the application");
-                    Console.WriteLine("S: Search collection");
-                    string response = Console.ReadLine().ToUpper();
-                    switch (response)
-                    {
-                        case "V":
-                            Book.viewAllBooks();
-                            break;
-                        case "C":
-                            Book newBook = new Book();
-                            Book.createNewBook(newBook);
-                            Book.addNewBook(newBook);
-                            break;
-                        case "Q":
-                            menuBreaker = true; //changes the menubreaker value, setting the while condition false and breaking the loop
-                            break;
-                        case "S":
-                            Book.searchBooks();
-                            break;
-                        default:
-                            Console.WriteLine("Select one of the options:");
-                            break;
-                    }
+                    case "V":
+                        Book.viewAllBooks();
+                        break;
+                    case "C":
+                        Book newBook = new Book();
+                        Book.createNewBook(newBook);
+                        Book.addNewBook(newBook);
+                        break;
+                    case "Q":
+                        menuBreaker = true; //changes the menubreaker value, setting the while condition false and breaking the loop
+                        break;
+                    case "S":
+                        Book.searchBooks();
+                        break;
+                    default:
+                        Console.WriteLine("Select one of the options:");
+                        break;
                 }
+            }
         }
     }
 
@@ -55,7 +55,7 @@ namespace BookCollection
         }
     }
 
-    }
+
 
     public class Book
     {
@@ -133,9 +133,9 @@ namespace BookCollection
                     Console.WriteLine("Enter the last name of the author you are searching for: ");
                     string authorLast = Console.ReadLine();
                     var resultsAuthor = from book in myBookCollection
-                                    where book.AuthorFirst.Contains(authorFirst) && 
-                                    book.AuthorLast.Contains(authorLast)
-                                    select book;
+                                        where book.AuthorFirst.Contains(authorFirst) &&
+                                        book.AuthorLast.Contains(authorLast)
+                                        select book;
                     foreach (Book book in resultsAuthor)
                     {
                         Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
@@ -146,8 +146,8 @@ namespace BookCollection
                     Console.WriteLine("Enter the ISBN you are searching for: ");
                     var isbn = Console.ReadLine();
                     var resultsIsbn = from book in myBookCollection
-                                  where book.ISBN == isbn
-                                  select book;
+                                      where book.ISBN == isbn
+                                      select book;
                     foreach (Book book in resultsIsbn)
                     {
                         Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
@@ -157,9 +157,10 @@ namespace BookCollection
                 default:
                     Console.WriteLine("Select one of the options:");
                     break;
-            } 
+            }
         }
     }
+}
 
       
 
