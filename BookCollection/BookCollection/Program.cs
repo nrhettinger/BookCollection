@@ -86,7 +86,11 @@ namespace BookCollection
 
         public static void addNewBook(Book newBook)
         {
-            myBookCollection.Add(newBook);
+            SqlConnection conn = Database.bookCollectionConnection();
+            SqlCommand addNewBooks = new SqlCommand("insert into Books (Title, Series, ISBN, Review) values (newBook.Title, newBook.Series, newBook.ISBN, newbook.Review)", conn);
+            SqlCommand addNewAuthors = new SqlCommand("insert into Authors (FirstName, LastName) values (newBook.AuthorFirst, newBook.AuthorLast)", conn);
+            addNewBooks.BeginExecuteNonQuery();
+            //addNewAuthors.BeginExecuteNonQuery();
         }
 
         public static void viewAllBooks()
