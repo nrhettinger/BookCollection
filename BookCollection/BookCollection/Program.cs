@@ -87,12 +87,16 @@ namespace BookCollection
         public static void addNewBook(Book newBook)
         {
             SqlConnection conn = Database.bookCollectionConnection();
-            SqlCommand addNewBooks = new SqlCommand("Insert into Books (ISBN, Title) values (@ISBN, @Title)", conn);
+            SqlCommand addNewBooks = new SqlCommand("Insert into Books (ISBN, Title, Series, Review) values (@ISBN, @Title, @Series, @Review)", conn);
             addNewBooks.Parameters.Add(new SqlParameter("ISBN", newBook.ISBN));
             addNewBooks.Parameters.Add(new SqlParameter("Title", newBook.Title));
-            //SqlCommand addNewAuthors = new SqlCommand("insert into Authors (FirstName, LastName) values (newBook.AuthorFirst, newBook.AuthorLast)", conn);
+            addNewBooks.Parameters.Add(new SqlParameter("Series", newBook.Series));
+            addNewBooks.Parameters.Add(new SqlParameter("Review", newBook.Review));
+            SqlCommand addNewAuthors = new SqlCommand("insert into Authors (FirstName, LastName) values (@AuthorFirst, @AuthorLast)", conn);
+            addNewAuthors.Parameters.Add(new SqlParameter("AuthorFirst", newBook.AuthorFirst));
+            addNewAuthors.Parameters.Add(new SqlParameter("AuthorLast", newBook.AuthorLast));
             addNewBooks.ExecuteNonQuery();
-            //addNewAuthors.BeginExecuteNonQuery();
+            addNewAuthors.ExecuteNonQuery();
         }
 
         public static void viewAllBooks()
