@@ -107,7 +107,7 @@ namespace BookCollection
         public static void viewAllBooks()
         {
             SqlConnection conn = Database.bookCollectionConnection();
-            SqlCommand viewAllBooks = new SqlCommand("Select * from Books join Authors on Author=A_ID", conn);
+            SqlCommand viewAllBooks = new SqlCommand("Select * from Books join Authors on Author=A_ID order by Title", conn);
             using (SqlDataReader reader = viewAllBooks.ExecuteReader())
             {
                 while (reader.Read())
