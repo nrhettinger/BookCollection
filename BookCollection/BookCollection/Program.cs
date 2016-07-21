@@ -97,6 +97,11 @@ namespace BookCollection
             addNewAuthors.Parameters.Add(new SqlParameter("AuthorLast", newBook.AuthorLast));
             addNewBooks.ExecuteNonQuery();
             addNewAuthors.ExecuteNonQuery();
+            SqlCommand returnA_ID = new SqlCommand("spInsertA_ID @AF, @AL, @T", conn); 
+            returnA_ID.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
+            returnA_ID.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
+            returnA_ID.Parameters.Add(new SqlParameter("T", newBook.Title));
+            returnA_ID.ExecuteNonQuery();
         }
 
         public static void viewAllBooks()
