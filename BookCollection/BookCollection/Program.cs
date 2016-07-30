@@ -127,15 +127,17 @@ namespace BookCollection
             switch (response)
             {
                 case "T":
+                    SqlConnection conn = Database.bookCollectionConnection();
                     Console.WriteLine("Enter the title you are searching for: ");
                     string title = Console.ReadLine();
-                    var resultsTitle = from book in myBookCollection
-                                       where book.Title.Contains(title)
-                                       select book;
-                    foreach (Book book in resultsTitle)
+                    SqlCommand searchByTitle = new SqlCommand("spSearchByTitle @T", conn);
+                    searchByTitle.Parameters.Add(new SqlParameter("T", title));
+                    using (SqlDataReader reader = searchByTitle.ExecuteReader())
                     {
-                        Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
-                                           book.Title, book.Series, book.AuthorFirst + " " + book.AuthorLast, book.Review);
+                        while (reader.Read())
+                        {
+                            Console.WriteLine("\nTitle: {0}| ISBN: {1}| Author: {2}| Review: {3}\n", reader[1], reader[0], reader[6] + " " + reader[7], reader[4]);
+                        }
                     }
                     break;
                 case "A":
