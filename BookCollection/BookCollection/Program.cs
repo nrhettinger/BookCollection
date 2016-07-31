@@ -64,6 +64,17 @@ namespace BookCollection
         public string AuthorLast { get; set; }
         public string Review { get; set; }
 
+        private static void displayBooks(SqlCommand command)
+        {
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Console.WriteLine("\nTitle: {0}| ISBN: {1}| Author: {2}| Review: {3}\n", reader[1], reader[0], reader[6] + " " + reader[7], reader[4]);
+                }
+            }
+        }
+
         public static Book createNewBook(Book newBook) //scope, association with object, return type, function name, parameter type and name
         {
             Console.WriteLine("What is the name of the book?");
@@ -80,6 +91,9 @@ namespace BookCollection
             newBook.Review = Console.ReadLine();
             return newBook;
         }
+
+        static List<Book> myBookCollection = new List<Book>();
+
 
         public static void addNewBook(Book newBook)
         {
@@ -105,13 +119,7 @@ namespace BookCollection
         {
             SqlConnection conn = Database.bookCollectionConnection();
             SqlCommand viewAllBooks = new SqlCommand("spViewAllBooks", conn);
-            using (SqlDataReader reader = viewAllBooks.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    Console.WriteLine("\nTitle: {0}| ISBN: {1}| Author: {2}| Review: {3}\n", reader[1], reader[0], reader[6] + " " + reader[7], reader[4]);
-                }
-            }
+            displayBooks(viewAllBooks);
         }
 
         public static void searchBooks()
@@ -129,13 +137,7 @@ namespace BookCollection
                     string title = Console.ReadLine();
                     SqlCommand searchByTitle = new SqlCommand("spSearchByTitle @T", conn);
                     searchByTitle.Parameters.Add(new SqlParameter("T", title));
-                    using (SqlDataReader reader = searchByTitle.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            Console.WriteLine("\nTitle: {0}| ISBN: {1}| Author: {2}| Review: {3}\n", reader[1], reader[0], reader[6] + " " + reader[7], reader[4]);
-                        }
-                    }
+                    displayBooks(searchByTitle);
                     break;
                 case "A":
                     Console.WriteLine("Enter the first name of the author you are searching for: ");
