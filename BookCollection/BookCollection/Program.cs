@@ -124,6 +124,7 @@ namespace BookCollection
 
         public static void searchBooks()
         {
+            SqlConnection conn = Database.bookCollectionConnection();
             Console.WriteLine("Search by the following:");
             Console.WriteLine("T: Title");
             Console.WriteLine("A: Author");
@@ -132,7 +133,6 @@ namespace BookCollection
             switch (response)
             {
                 case "T":
-                    SqlConnection conn = Database.bookCollectionConnection();
                     Console.WriteLine("Enter the title you are searching for: ");
                     string title = Console.ReadLine();
                     SqlCommand searchByTitle = new SqlCommand("spSearchByTitle @T", conn);
