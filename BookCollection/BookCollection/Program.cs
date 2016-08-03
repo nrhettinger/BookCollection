@@ -144,10 +144,10 @@ namespace BookCollection
                     string authorFirst = Console.ReadLine();
                     Console.WriteLine("Enter the last name of the author you are searching for: ");
                     string authorLast = Console.ReadLine();
-                    var resultsAuthor = from book in myBookCollection
-                                        where book.AuthorFirst.Contains(authorFirst) &&
-                                        book.AuthorLast.Contains(authorLast)
-                                        select book;
+                    SqlCommand searchByAuthor = new SqlCommand("spSearchByAuthor @AF, @AL", conn);
+                    searchByTitle.Parameters.Add(new SqlParameter("AF", authorFirst));
+                    searchByTitle.Parameters.Add(new SqlParameter("AL", authorLast));
+                    displayBooks(searchByTitle);
                     foreach (Book book in resultsAuthor)
                     {
                         Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
