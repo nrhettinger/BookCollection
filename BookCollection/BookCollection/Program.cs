@@ -145,14 +145,9 @@ namespace BookCollection
                     Console.WriteLine("Enter the last name of the author you are searching for: ");
                     string authorLast = Console.ReadLine();
                     SqlCommand searchByAuthor = new SqlCommand("spSearchByAuthor @AF, @AL", conn);
-                    searchByTitle.Parameters.Add(new SqlParameter("AF", authorFirst));
-                    searchByTitle.Parameters.Add(new SqlParameter("AL", authorLast));
-                    displayBooks(searchByTitle);
-                    foreach (Book book in resultsAuthor)
-                    {
-                        Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
-                                           book.Title, book.Series, book.AuthorFirst + " " + book.AuthorLast, book.Review);
-                    }
+                    searchByAuthor.Parameters.Add(new SqlParameter("AF", authorFirst));
+                    searchByAuthor.Parameters.Add(new SqlParameter("AL", authorLast));
+                    displayBooks(searchByAuthor);
                     break;
                 case "I":
                     Console.WriteLine("Enter the ISBN you are searching for: ");
