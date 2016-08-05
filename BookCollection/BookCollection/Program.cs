@@ -151,15 +151,9 @@ namespace BookCollection
                     break;
                 case "I":
                     Console.WriteLine("Enter the ISBN you are searching for: ");
-                    var isbn = Console.ReadLine();
-                    var resultsIsbn = from book in myBookCollection
-                                      where book.ISBN == isbn
-                                      select book;
-                    foreach (Book book in resultsIsbn)
-                    {
-                        Console.WriteLine("\nTitle: {0}| Series: {1}| Author: {2}| Review: {3}\n",
-                                           book.Title, book.Series, book.AuthorFirst + " " + book.AuthorLast, book.Review);
-                    }
+                    string isbn = Console.ReadLine();
+                    SqlCommand searchByISBN = new SqlCommand("spSearchByISBN @T", conn);
+                    searchByISBN.Parameters.Add(new SqlParameter("T", isbn));
                     break;
                 default:
                     Console.WriteLine("Select one of the options:");
