@@ -152,8 +152,9 @@ namespace BookCollection
                 case "I":
                     Console.WriteLine("Enter the ISBN you are searching for: ");
                     string isbn = Console.ReadLine();
-                    SqlCommand searchByISBN = new SqlCommand("spSearchByISBN @T", conn);
-                    searchByISBN.Parameters.Add(new SqlParameter("T", isbn));
+                    SqlCommand searchByISBN = new SqlCommand("spSearchByISBN @I", conn);
+                    searchByISBN.Parameters.Add(new SqlParameter("I", isbn));
+                    displayBooks(searchByISBN);
                     break;
                 default:
                     Console.WriteLine("Select one of the options:");
