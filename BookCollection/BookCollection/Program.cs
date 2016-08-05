@@ -93,9 +93,6 @@ namespace BookCollection
             return newBook;
         }
 
-        static List<Book> myBookCollection = new List<Book>();
-
-
         public static void addNewBook(Book newBook)
         {
             SqlConnection conn = Database.bookCollectionConnection();
