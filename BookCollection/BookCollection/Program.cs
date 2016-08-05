@@ -68,9 +68,10 @@ namespace BookCollection
         {
             using (SqlDataReader reader = command.ExecuteReader())
             {
+                Console.WriteLine("\nRESULTS:\n\n");
                 while (reader.Read())
                 {
-                    Console.WriteLine("\nTitle: {0}| ISBN: {1}| Author: {2}| Review: {3}\n", reader[1], reader[0], reader[6] + " " + reader[7], reader[4]);
+                    Console.WriteLine("---------------\nTitle: {0}| ISBN: {1}| Author: {2}| Review: {3}\n---------------\n", reader[1], reader[0], reader[6] + " " + reader[7], reader[4]);
                 }
             }
         }
@@ -81,7 +82,7 @@ namespace BookCollection
             newBook.Title = Console.ReadLine();
             Console.WriteLine("What series is this book part of? If not part of any, say 'None'.");
             newBook.Series = Console.ReadLine();
-            Console.WriteLine("What is the ISBN? If unknown say '00'");
+            Console.WriteLine("What is the ISBN? This field is required.");
             newBook.ISBN = Console.ReadLine();
             Console.WriteLine("Who is the author? First name is:");
             newBook.AuthorFirst = Console.ReadLine();
