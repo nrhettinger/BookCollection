@@ -164,41 +164,45 @@ namespace BookCollection
             }
         }
 
-        public static void updateBooks() 
+        private static void updateField(string fieldName, string storedProcedure, string record, string field1, string field2 = null)
         {
             SqlConnection conn = Database.bookCollectionConnection();
+            Console.WriteLine("Would you like to update the " + fieldName + "? Enter Y (yes) or N (no):");
+            string response = Console.ReadLine().ToUpper();
+            switch (response) 
+            {
+                case "Y":
+                    {
+                        Console.WriteLine("Enter the new " + fieldName + ":");
+                        string title = Console.ReadLine();
+                        SqlCommand updateField = new SqlCommand(""+storedProcedure+", @F1, @F2", conn);
+                        updateField.Parameters.Add(new SqlParameter("F1", field1));
+                        updateField.Parameters.Add(new SqlParameter("F2", field2));
+                        Console.WriteLine(fieldName + "updated!");
+                        break;
+                    }
+                case "N":
+                    {
+                        break;
+                    }
+                default:
+                    {
+                        Console.WriteLine("Please select ente Y (yes) or N (No) for updating the title");
+                        break;
+                    }
+            }
+        }
+
+        public static void updateBooks() 
+        {
             Console.WriteLine("Which book would you like to update? You can search by ISBN or title. Select I (ISBN) or T (Title) below:");
             string response = Console.ReadLine().ToUpper();
             switch (response)
             {
                 case "I":
-                    Console.WriteLine("Enter the ISBN of the book you want to update:");
+                    Console.WriteLine("You can update the following fields: Title, Series, Author and Review. Enter the ISBN of the book you want to update:");
                     string isbn = Console.ReadLine();
-                    Console.WriteLine("You can update the following fields: Title, Series, Author and Review");
-                    Console.WriteLine("Would you like to update the title? Enter Y (yes) or N (no):");
-                    string responseT = Console.ReadLine().ToUpper();
-                    switch (responseT) 
-                    {
-                        case "Y":
-                            {
-                                Console.WriteLine("Enter the new title:");
-                                string title = Console.ReadLine();
-                                SqlCommand updateTitle = new SqlCommand("spUpdateTitle, @I, @T", conn);
-                                updateTitle.Parameters.Add(new SqlParameter("I", isbn));
-                                updateTitle.Parameters.Add(new SqlParameter("T", title));
-                                Console.WriteLine("Title updated!");
-                                break;
-                            }
-                       case "N":
-                            {
-                                break;
-                            }
-                        default:
-                            {
-                                Console.WriteLine("Please select ente Y (yes) or N (No) for updating the title");
-                                break;
-                            }
-                    }
+                    updateField();
                     break;
                 case "T":
                     break;
