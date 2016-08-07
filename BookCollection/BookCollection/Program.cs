@@ -172,6 +172,33 @@ namespace BookCollection
             switch (response)
             {
                 case "I":
+                    Console.WriteLine("Enter the ISBN of the book you want to update:");
+                    string isbn = Console.ReadLine();
+                    Console.WriteLine("You can update the following fields: Title, Series, Author and Review");
+                    Console.WriteLine("Would you like to update the title? Enter Y (yes) or N (no):");
+                    string responseT = Console.ReadLine().ToUpper();
+                    switch (responseT) 
+                    {
+                        case "Y":
+                            {
+                                Console.WriteLine("Enter the new title:");
+                                string title = Console.ReadLine();
+                                SqlCommand updateTitle = new SqlCommand("spUpdateTitle, @I, @T", conn);
+                                updateTitle.Parameters.Add(new SqlParameter("I", isbn));
+                                updateTitle.Parameters.Add(new SqlParameter("T", title));
+                                Console.WriteLine("Title updated!");
+                                break;
+                            }
+                       case "N":
+                            {
+                                break;
+                            }
+                        default:
+                            {
+                                Console.WriteLine("Please select ente Y (yes) or N (No) for updating the title");
+                                break;
+                            }
+                    }
                     break;
                 case "T":
                     break;
