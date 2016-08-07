@@ -175,10 +175,14 @@ namespace BookCollection
                     {
                         Console.WriteLine("Enter the new " + fieldName + ":");
                         string valueNew = Console.ReadLine();
-                        SqlCommand updateField = new SqlCommand(""+storedProcedure+", @R, @VN", conn);
+                        SqlCommand updateField = new SqlCommand();
+                        updateField.CommandType = System.Data.CommandType.StoredProcedure;
+                        updateField.CommandText = storedProcedure;
                         updateField.Parameters.Add(new SqlParameter("R", record));
                         updateField.Parameters.Add(new SqlParameter("VN", valueNew));
-                        Console.WriteLine(fieldName + "updated!");
+                        updateField.Connection = conn;
+                        updateField.ExecuteNonQuery();
+                        Console.WriteLine("The " +fieldName+ " is updated!");
                         break;
                     }
                 case "N":
