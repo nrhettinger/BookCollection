@@ -163,6 +163,23 @@ namespace BookCollection
                     break;
             }
         }
+
+        public static void updateBooks() 
+        {
+            SqlConnection conn = Database.bookCollectionConnection();
+            Console.WriteLine("Which book would you like to update? You can search by ISBN or title. Select I (ISBN) or T (Title) below:");
+            string response = Console.ReadLine().ToUpper();
+            switch (response)
+            {
+                case "I":
+                    break;
+                case "T":
+                    break;
+                default:
+                    Console.WriteLine("Select one of the options:");
+                    break;
+            }
+        }
     }
 }
 
