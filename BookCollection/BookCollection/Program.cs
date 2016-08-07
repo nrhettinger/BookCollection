@@ -19,6 +19,7 @@ namespace BookCollection
                 Console.WriteLine("V: View collection");
                 Console.WriteLine("Q: Quit the application");
                 Console.WriteLine("S: Search collection");
+                Console.WriteLine("U: Update books");
                 string response = Console.ReadLine().ToUpper();
                 switch (response)
                 {
@@ -35,6 +36,9 @@ namespace BookCollection
                         break;
                     case "S":
                         Book.searchBooks();
+                        break;
+                    case "U":
+                        Book.updateBooks();
                         break;
                     default:
                         Console.WriteLine("Select one of the options:");
