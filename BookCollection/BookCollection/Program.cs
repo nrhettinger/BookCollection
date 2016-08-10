@@ -172,21 +172,26 @@ namespace BookCollection
             switch (response) 
             {
                 case "Y":
+                    SqlCommand updateField = new SqlCommand();
+                    updateField.CommandType = System.Data.CommandType.StoredProcedure;
+                    updateField.CommandText = storedProcedure;
                     {
-                        if (storedProcedure == "spUpdateAuthor")
+                        if (fieldName1 != null && fieldName2 !=null)
                         {
                             Console.WriteLine("Enter the new " + fieldName1 + ":");
                             string valueNew1 = Console.ReadLine();
                             Console.WriteLine("Enter the new " + fieldName2 + ":");
                             string valueNew2 = Console.ReadLine();
+                            updateField.Parameters.Add(new SqlParameter("VN1", valueNew1));
+                            updateField.Parameters.Add(new SqlParameter("VN2", valueNew2));
                         }
-                        Console.WriteLine("Enter the new " + fieldName + ":");
-                        string valueNew = Console.ReadLine();
-                        SqlCommand updateField = new SqlCommand();
-                        updateField.CommandType = System.Data.CommandType.StoredProcedure;
-                        updateField.CommandText = storedProcedure;
+                        else
+                        {
+                            Console.WriteLine("Enter the new " + fieldName + ":");
+                            string valueNew = Console.ReadLine();
+                            updateField.Parameters.Add(new SqlParameter("VN", valueNew));
+                        }
                         updateField.Parameters.Add(new SqlParameter("R", record));
-                        updateField.Parameters.Add(new SqlParameter("VN", valueNew));
                         updateField.Connection = conn;
                         updateField.ExecuteNonQuery();
                         Console.WriteLine("The " +fieldName+ " is updated!");
