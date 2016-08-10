@@ -164,7 +164,7 @@ namespace BookCollection
             }
         }
 
-        private static void updateField(string fieldName, string storedProcedure, string record)
+        private static void updateField(string fieldName, string storedProcedure, string record, string fieldName1 = null, string fieldName2 = null)
         {
             SqlConnection conn = Database.bookCollectionConnection();
             Console.WriteLine("Would you like to update the " + fieldName + "? Enter Y (yes) or N (no):");
@@ -173,6 +173,13 @@ namespace BookCollection
             {
                 case "Y":
                     {
+                        if (storedProcedure == "spUpdateAuthor")
+                        {
+                            Console.WriteLine("Enter the new " + fieldName1 + ":");
+                            string valueNew1 = Console.ReadLine();
+                            Console.WriteLine("Enter the new " + fieldName2 + ":");
+                            string valueNew2 = Console.ReadLine();
+                        }
                         Console.WriteLine("Enter the new " + fieldName + ":");
                         string valueNew = Console.ReadLine();
                         SqlCommand updateField = new SqlCommand();
@@ -207,6 +214,9 @@ namespace BookCollection
                     Console.WriteLine("You can update the following fields: Title, Series, Author and Review. Enter the ISBN of the book you want to update:");
                     string isbn = Console.ReadLine();
                     updateField("Title", "spUpdateTitle", isbn);
+                    updateField("Series", "spUpdateSeries", isbn);
+                    updateField("Author", "spUpdateAuthor", isbn);
+                    updateField("Review", "spUpdateReview", isbn);
                     break;
                 case "T":
                     break;
