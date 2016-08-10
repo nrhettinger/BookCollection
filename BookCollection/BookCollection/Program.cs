@@ -203,7 +203,7 @@ namespace BookCollection
                     }
                 default:
                     {
-                        Console.WriteLine("Please select ente Y (yes) or N (No) for updating the title");
+                        Console.WriteLine("Please enter Y (yes) or N (No) for updating the " +fieldName+ ".");
                         break;
                     }
             }
@@ -220,7 +220,7 @@ namespace BookCollection
                     string isbn = Console.ReadLine();
                     updateField("Title", "spUpdateTitle", isbn);
                     updateField("Series", "spUpdateSeries", isbn);
-                    updateField("Author", "spUpdateAuthor", isbn);
+                    updateField("Author", "spUpdateAuthor", isbn, "first name", "last name");
                     updateField("Review", "spUpdateReview", isbn);
                     break;
                 case "T":
