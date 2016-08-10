@@ -15,6 +15,7 @@ namespace BookCollection
             Console.WriteLine("Welcome to the book collection, what would you like to do?");
             while (menuBreaker == false)
             {
+                Console.WriteLine("----------\nMAIN MENU\n----------");
                 Console.WriteLine("C: Create a new book");
                 Console.WriteLine("V: View collection");
                 Console.WriteLine("Q: Quit the application");
