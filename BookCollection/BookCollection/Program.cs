@@ -86,7 +86,7 @@ namespace BookCollection
             newBook.Title = Console.ReadLine();
             Console.WriteLine("What series is this book part of? If not part of any, say 'None'.");
             newBook.Series = Console.ReadLine();
-            Console.WriteLine("What is the ISBN? This field is required.");
+            Console.WriteLine("What is the ISBN?");
             newBook.ISBN = Console.ReadLine();
             Console.WriteLine("Who is the author? First name is:");
             newBook.AuthorFirst = Console.ReadLine();
