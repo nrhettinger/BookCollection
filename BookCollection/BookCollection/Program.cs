@@ -177,7 +177,7 @@ namespace BookCollection
                     updateField.CommandType = System.Data.CommandType.StoredProcedure;
                     updateField.CommandText = storedProcedure;
                     {
-                        if (fieldName1 != null && fieldName2 !=null)
+                        if (fieldName1 != null && fieldName2 !=null) //this scenario is when there are two parts to a field name. Example - the author field is divided into FirstName and LastName in the database. To change it two new values need to be sent in as arguments into the function. This block deals with that scenario
                         {
                             Console.WriteLine("Enter the new " + fieldName1 + ":");
                             string valueNew1 = Console.ReadLine();
@@ -208,6 +208,16 @@ namespace BookCollection
                         break;
                     }
             }
+        }
+
+        private static void runUpdateFieldFunctions(string recordName)
+        {
+            Console.WriteLine("You can update the following fields: Title, Series, Author and Review. Enter the "+recordName+" of the book you want to update:");
+            string recordID = Console.ReadLine();
+            updateField("Title", "spUpdateTitle", recordID);
+            updateField("Series", "spUpdateSeries", recordID);
+            updateField("Author", "spUpdateAuthor", recordID, "first name", "last name");
+            updateField("Review", "spUpdateReview", recordID);
         }
 
         public static void updateBooks() 
