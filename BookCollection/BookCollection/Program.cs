@@ -165,7 +165,7 @@ namespace BookCollection
             }
         }
 
-        private static void updateField(string fieldName, string storedProcedure, string record, string fieldName1 = null, string fieldName2 = null)
+        private static void updateField(string fieldName, string storedProcedure, string recordID, string recordName, string fieldName1 = null, string fieldName2 = null)
         {
             SqlConnection conn = Database.bookCollectionConnection();
             Console.WriteLine("Would you like to update the " + fieldName + "? Enter Y (yes) or N (no):");
@@ -192,7 +192,8 @@ namespace BookCollection
                             string valueNew = Console.ReadLine();
                             updateField.Parameters.Add(new SqlParameter("VN", valueNew));
                         }
-                        updateField.Parameters.Add(new SqlParameter("R", record));
+                        updateField.Parameters.Add(new SqlParameter("rID", recordID));
+                        updateField.Parameters.Add(new SqlParameter("rName", recordName));
                         updateField.Connection = conn;
                         updateField.ExecuteNonQuery();
                         Console.WriteLine("The " +fieldName+ " is updated!");
@@ -214,10 +215,10 @@ namespace BookCollection
         {
             Console.WriteLine("You can update the following fields: Title, Series, Author and Review. Enter the "+recordName+" of the book you want to update:");
             string recordID = Console.ReadLine();
-            updateField("Title", "spUpdateTitle", recordID);
-            updateField("Series", "spUpdateSeries", recordID);
-            updateField("Author", "spUpdateAuthor", recordID, "first name", "last name");
-            updateField("Review", "spUpdateReview", recordID);
+            updateField("Title", "spUpdateTitle", recordID, recordName);
+            updateField("Series", "spUpdateSeries", recordID, recordName);
+            updateField("Author", "spUpdateAuthor", recordID, recordName,"first name", "last name");
+            updateField("Review", "spUpdateReview", recordID, recordName);
         }
 
         public static void updateBooks() 
@@ -227,12 +228,13 @@ namespace BookCollection
             switch (response)
             {
                 case "I":
-                    Console.WriteLine("You can update the following fields: Title, Series, Author and Review. Enter the ISBN of the book you want to update:");
+                    runUpdateFieldFunctions("ISBN");
+                  /*Console.WriteLine("You can update the following fields: Title, Series, Author and Review. Enter the ISBN of the book you want to update:");
                     string isbn = Console.ReadLine();
                     updateField("Title", "spUpdateTitle", isbn);
                     updateField("Series", "spUpdateSeries", isbn);
                     updateField("Author", "spUpdateAuthor", isbn, "first name", "last name");
-                    updateField("Review", "spUpdateReview", isbn);
+                    updateField("Review", "spUpdateReview", isbn);*/
                     break;
                 case "T":
                     break;
