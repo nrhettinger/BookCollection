@@ -170,6 +170,7 @@ namespace BookCollection
             SqlConnection conn = Database.bookCollectionConnection();
             Console.WriteLine("Would you like to update the " + fieldName + "? Enter Y (yes) or N (no):");
             string response = Console.ReadLine().ToUpper();
+            string recordN = recordName;
             switch (response) 
             {
                 case "Y":
@@ -193,7 +194,7 @@ namespace BookCollection
                             updateField.Parameters.Add(new SqlParameter("VN", valueNew));
                         }
                         updateField.Parameters.Add(new SqlParameter("rID", recordID));
-                        updateField.Parameters.Add(new SqlParameter("rName", recordName));
+                        updateField.Parameters.Add(new SqlParameter("rName", recordN));
                         updateField.Connection = conn;
                         updateField.ExecuteNonQuery();
                         Console.WriteLine("The " +fieldName+ " is updated!");
@@ -215,10 +216,11 @@ namespace BookCollection
         {
             Console.WriteLine("You can update the following fields: Title, Series, Author and Review. Enter the "+recordName+" of the book you want to update:");
             string recordID = Console.ReadLine();
-            updateField("Title", "spUpdateTitle", recordID, recordName);
-            updateField("Series", "spUpdateSeries", recordID, recordName);
-            updateField("Author", "spUpdateAuthor", recordID, recordName,"first name", "last name");
-            updateField("Review", "spUpdateReview", recordID, recordName);
+            string recordN = recordName;
+            updateField("Title", "spUpdateTitle", recordID, recordN);
+            updateField("Series", "spUpdateSeries", recordID, recordN);
+            updateField("Author", "spUpdateAuthor", recordID, recordN,"first name", "last name");
+            updateField("Review", "spUpdateReview", recordID, recordN);
         }
 
         public static void updateBooks() 
