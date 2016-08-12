@@ -218,6 +218,7 @@ namespace BookCollection
             string recordID = Console.ReadLine();
             string recordN = recordName;
             updateField("Title", "spUpdateTitle", recordID, recordN);
+            updateField("ISBN", "spUpdateISBN", recordID, recordN);
             updateField("Series", "spUpdateSeries", recordID, recordN);
             updateField("Author", "spUpdateAuthor", recordID, recordN,"first name", "last name");
             updateField("Review", "spUpdateReview", recordID, recordN);
