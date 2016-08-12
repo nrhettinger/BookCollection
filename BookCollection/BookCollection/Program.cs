@@ -83,11 +83,11 @@ namespace BookCollection
 
         public static Book createNewBook(Book newBook) //scope, association with object, return type, function name, parameter type and name
         {
-            Console.WriteLine("What is the name of the book?");
+            Console.WriteLine("What is the name of the book? This has to be unique.");
             newBook.Title = Console.ReadLine();
             Console.WriteLine("What series is this book part of? If not part of any, say 'None'.");
             newBook.Series = Console.ReadLine();
-            Console.WriteLine("What is the ISBN?");
+            Console.WriteLine("What is the ISBN? This has to be unique.");
             newBook.ISBN = Console.ReadLine();
             Console.WriteLine("Who is the author? First name is:");
             newBook.AuthorFirst = Console.ReadLine();
@@ -214,14 +214,23 @@ namespace BookCollection
 
         private static void runUpdateFieldFunctions(string recordName)
         {
-            Console.WriteLine("You can update the following fields: Title, Series, Author and Review. Enter the "+recordName+" of the book you want to update:");
+            Console.WriteLine("You can update all the fields except the "+recordName+". Enter the "+recordName+" of the book you want to update:");
             string recordID = Console.ReadLine();
             string recordN = recordName;
-            updateField("Title", "spUpdateTitle", recordID, recordN);
-            updateField("ISBN", "spUpdateISBN", recordID, recordN);
-            updateField("Series", "spUpdateSeries", recordID, recordN);
-            updateField("Author", "spUpdateAuthor", recordID, recordN,"first name", "last name");
-            updateField("Review", "spUpdateReview", recordID, recordN);
+            if (recordN == "ISBN")
+            {
+                updateField("Title", "spUpdateTitle", recordID, recordN);
+                updateField("Series", "spUpdateSeries", recordID, recordN);
+                updateField("Author", "spUpdateAuthor", recordID, recordN, "first name", "last name");
+                updateField("Review", "spUpdateReview", recordID, recordN);
+            }
+            else if (recordN == "Title")
+            {
+                updateField("ISBN", "spUpdateISBN", recordID, recordN);
+                updateField("Series", "spUpdateSeries", recordID, recordN);
+                updateField("Author", "spUpdateAuthor", recordID, recordN, "first name", "last name");
+                updateField("Review", "spUpdateReview", recordID, recordN);
+            }
         }
 
         public static void updateBooks() 
