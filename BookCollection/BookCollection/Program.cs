@@ -169,8 +169,8 @@ namespace BookCollection
         {
             SqlConnection conn = Database.bookCollectionConnection();
             Console.WriteLine("Would you like to update the " + fieldName + "? Enter Y (yes) or N (no):");
-            string response = Console.ReadLine().ToUpper();
             string recordN = recordName;
+            string response = Console.ReadLine().ToUpper();
             switch (response) 
             {
                 case "Y":
@@ -231,14 +231,9 @@ namespace BookCollection
             {
                 case "I":
                     runUpdateFieldFunctions("ISBN");
-                  /*Console.WriteLine("You can update the following fields: Title, Series, Author and Review. Enter the ISBN of the book you want to update:");
-                    string isbn = Console.ReadLine();
-                    updateField("Title", "spUpdateTitle", isbn);
-                    updateField("Series", "spUpdateSeries", isbn);
-                    updateField("Author", "spUpdateAuthor", isbn, "first name", "last name");
-                    updateField("Review", "spUpdateReview", isbn);*/
                     break;
                 case "T":
+                    runUpdateFieldFunctions("Title");
                     break;
                 default:
                     Console.WriteLine("Select one of the options:");
