@@ -21,6 +21,7 @@ namespace BookCollection
                 Console.WriteLine("Q: Quit the application");
                 Console.WriteLine("S: Search collection");
                 Console.WriteLine("U: Update books");
+                Console.WriteLine("D: Delete books");
                 string response = Console.ReadLine().ToUpper();
                 switch (response)
                 {
