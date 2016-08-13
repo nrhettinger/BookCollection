@@ -105,16 +105,14 @@ namespace BookCollection
         public static void addNewBook(Book newBook)
         {
             SqlConnection conn = Database.bookCollectionConnection();
-            SqlCommand addNewBooks = new SqlCommand("Insert into Books (ISBN, Title, Series, Review) values (@ISBN, @Title, @Series, @Review)", conn);
-            addNewBooks.Parameters.Add(new SqlParameter("ISBN", newBook.ISBN));
-            addNewBooks.Parameters.Add(new SqlParameter("Title", newBook.Title));
-            addNewBooks.Parameters.Add(new SqlParameter("Series", newBook.Series));
-            addNewBooks.Parameters.Add(new SqlParameter("Review", newBook.Review));
-            SqlCommand addNewAuthors = new SqlCommand("insert into Authors (FirstName, LastName) values (@AuthorFirst, @AuthorLast)", conn);
-            addNewAuthors.Parameters.Add(new SqlParameter("AuthorFirst", newBook.AuthorFirst));
-            addNewAuthors.Parameters.Add(new SqlParameter("AuthorLast", newBook.AuthorLast));
-            addNewBooks.ExecuteNonQuery();
-            addNewAuthors.ExecuteNonQuery();
+            SqlCommand insertBookAndAuthor = new SqlCommand("spInsertBookAndAuthor @I, @T, @S, @R, @AF, @AL", conn);
+            insertBookAndAuthor.Parameters.Add(new SqlParameter("I", newBook.ISBN));
+            insertBookAndAuthor.Parameters.Add(new SqlParameter("T", newBook.Title));
+            insertBookAndAuthor.Parameters.Add(new SqlParameter("S", newBook.Series));
+            insertBookAndAuthor.Parameters.Add(new SqlParameter("R", newBook.Review));
+            insertBookAndAuthor.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
+            insertBookAndAuthor.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
+            insertBookAndAuthor.ExecuteNonQuery();
             SqlCommand insertA_ID = new SqlCommand("spInsertA_ID @AF, @AL, @T", conn); 
             insertA_ID.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
             insertA_ID.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
@@ -260,7 +258,7 @@ namespace BookCollection
             SqlConnection conn = Database.bookCollectionConnection();
             Console.WriteLine("Enter the " + recordType + " of the book that you want to delete:");
             string recordID = Console.ReadLine();
-            SqlCommand deleteBook = new SqlCommand("spDeleteBook @rID", conn);
+            SqlCommand deleteBook = new SqlCommand("spDeleteBook @rID, @rType", conn);
             deleteBook.Parameters.Add(new SqlParameter("rID", recordID));
             deleteBook.Parameters.Add(new SqlParameter("rType", recordType));
             deleteBook.ExecuteNonQuery();
