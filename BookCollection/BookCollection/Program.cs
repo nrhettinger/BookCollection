@@ -238,7 +238,7 @@ namespace BookCollection
 
         public static void updateBooks() 
         {
-            Console.WriteLine("Which book would you like to update? You can search by ISBN or title. Select I (ISBN) or T (Title) below:");
+            Console.WriteLine("Which book would you like to update? You can select by ISBN or title. Select I (ISBN) or T (Title) below:");
             string response = Console.ReadLine().ToUpper();
             switch (response)
             {
@@ -254,9 +254,34 @@ namespace BookCollection
             }
         }
 
+        private static void deleteBook(string recordType)
+        {
+            SqlConnection conn = Database.bookCollectionConnection();
+            Console.WriteLine("Enter the " + recordType + " of the book that you want to delete:");
+            string recordID = Console.ReadLine();
+            SqlCommand deleteBook = new SqlCommand("spDeleteBook @rID", conn);
+            deleteBook.Parameters.Add(new SqlParameter("rID", recordID));
+            deleteBook.Parameters.Add(new SqlParameter("rType", recordType));
+            deleteBook.ExecuteNonQuery();
+            Console.WriteLine("The book with the "+recordType+" of "+recordID+" has been deleted!");
+        }
+
         public static void deleteBooks()
         {
-
+            Console.WriteLine("Which book would you like to delete? You can select by ISBN or title. Select I (ISBN) or T (Title) below:");
+            string response = Console.ReadLine().ToUpper();
+            switch (response)
+            {
+                case "I":
+                    deleteBook("ISBN");
+                    break;
+                case "T":
+                    deleteBook("Title");
+                    break;
+                default:
+                    Console.WriteLine("Back to to the main menu!");
+                    break;
+            }
         }
     }
 }
