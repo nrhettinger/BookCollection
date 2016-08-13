@@ -41,6 +41,9 @@ namespace BookCollection
                     case "U":
                         Book.updateBooks();
                         break;
+                    case "D":
+                        Book.deleteBooks();
+                        break;
                     default:
                         Console.WriteLine("Select one of the options:");
                         break;
@@ -246,9 +249,14 @@ namespace BookCollection
                     runUpdateFieldFunctions("Title");
                     break;
                 default:
-                    Console.WriteLine("Select one of the options:");
+                    Console.WriteLine("Back to to the main menu!");
                     break;
             }
+        }
+
+        public static void deleteBooks()
+        {
+
         }
     }
 }
