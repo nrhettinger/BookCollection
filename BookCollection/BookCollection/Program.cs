@@ -97,6 +97,16 @@ namespace BookCollection
             newBook.AuthorFirst = Console.ReadLine();
             Console.WriteLine("Who is the author? Last name is:");
             newBook.AuthorLast = Console.ReadLine();
+            Console.WriteLine("What genre(s) does the book have? You can add up to 10.");
+                for (int i = 0; i < 10; i++)
+                {
+                    Console.WriteLine("If you would like to add a genre enter 'Y'. If no enter 'N'");
+                    string continueLoop = Console.ReadLine();
+                    if (continueLoop.ToUpper() == "N" || i >= 10)
+                    {
+                        break;
+                    }
+                }
             Console.WriteLine("What is your review of the book? If you have not read it or do not want to write a review, say 'N/A'.");
             newBook.Review = Console.ReadLine();
             return newBook;
