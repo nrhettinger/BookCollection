@@ -72,6 +72,16 @@ namespace BookCollection
         public string AuthorFirst { get; set; }
         public string AuthorLast { get; set; }
         public string Review { get; set; }
+        public string genreField1 { get; set; }
+        public string genreField2 { get; set; }
+        public string genreField3 { get; set; }
+        public string genreField4 { get; set; }
+        public string genreField5 { get; set; }
+        public string genreField6 { get; set; }
+        public string genreField7 { get; set; }
+        public string genreField8 { get; set; }
+        public string genreField9 { get; set; }
+        public string genreField10 { get; set; }    
 
         private static void displayBooks(SqlCommand command)
         {
@@ -105,6 +115,57 @@ namespace BookCollection
                     if (continueLoop.ToUpper() == "N" || i >= 10)
                     {
                         break;
+                    }
+                    Console.WriteLine("Please enter a genre for " + newBook.Title);
+                    if (continueLoop != "N" && newBook.genreField1 == null && i == 0)
+                    {
+                        newBook.genreField1 = Console.ReadLine();
+                        Console.WriteLine("Genre added!");
+                    }
+                    if (continueLoop != "N" && newBook.genreField1 == null && i == 1)
+                    {
+                        newBook.genreField2 = Console.ReadLine();
+                        Console.WriteLine("Genre added!");
+                    }
+                    if (continueLoop != "N" && newBook.genreField1 == null && i == 2)
+                    {
+                        newBook.genreField3 = Console.ReadLine();
+                        Console.WriteLine("Genre added!");
+                    }
+                    if (continueLoop != "N" && newBook.genreField1 == null && i == 3)
+                    {
+                        newBook.genreField4 = Console.ReadLine();
+                        Console.WriteLine("Genre added!");
+                    }
+                    if (continueLoop != "N" && newBook.genreField1 == null && i == 4)
+                    {
+                        newBook.genreField5 = Console.ReadLine();
+                        Console.WriteLine("Genre added!");
+                    }
+                    if (continueLoop != "N" && newBook.genreField1 == null && i == 5)
+                    {
+                        newBook.genreField6 = Console.ReadLine();
+                        Console.WriteLine("Genre added!");
+                    }
+                    if (continueLoop != "N" && newBook.genreField1 == null && i == 6)
+                    {
+                        newBook.genreField7 = Console.ReadLine();
+                        Console.WriteLine("Genre added!");
+                    }
+                    if (continueLoop != "N" && newBook.genreField1 == null && i == 7)
+                    {
+                        newBook.genreField8 = Console.ReadLine();
+                        Console.WriteLine("Genre added!");
+                    }
+                    if (continueLoop != "N" && newBook.genreField1 == null && i == 8)
+                    {
+                        newBook.genreField9 = Console.ReadLine();
+                        Console.WriteLine("Genre added!");
+                    }
+                    if (continueLoop != "N" && newBook.genreField1 == null && i == 9)
+                    {
+                        newBook.genreField10 = Console.ReadLine();
+                        Console.WriteLine("Genre added!");
                     }
                 }
             Console.WriteLine("What is your review of the book? If you have not read it or do not want to write a review, say 'N/A'.");
