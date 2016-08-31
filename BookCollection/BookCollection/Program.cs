@@ -31,7 +31,7 @@ namespace BookCollection
                     case "C":
                         Book newBook = new Book();
                         Book.createNewBook(newBook);
-                        Book.addNewBook(newBook);
+                        //Book.addNewBook(newBook);
                         break;
                     case "Q":
                         menuBreaker = true; //changes the menubreaker value, setting the while condition false and breaking the loop
@@ -117,52 +117,52 @@ namespace BookCollection
                         break;
                     }
                     Console.WriteLine("Please enter a genre for " + newBook.Title);
-                    if (continueLoop != "N" && newBook.genreField1 == null && i == 0)
+                    if (continueLoop != "N" && i == 0)
                     {
                         newBook.genreField1 = Console.ReadLine();
                         Console.WriteLine("Genre added!");
                     }
-                    if (continueLoop != "N" && newBook.genreField1 == null && i == 1)
+                    if (continueLoop != "N" && i == 1)
                     {
                         newBook.genreField2 = Console.ReadLine();
                         Console.WriteLine("Genre added!");
                     }
-                    if (continueLoop != "N" && newBook.genreField1 == null && i == 2)
+                    if (continueLoop != "N" && i == 2)
                     {
                         newBook.genreField3 = Console.ReadLine();
                         Console.WriteLine("Genre added!");
                     }
-                    if (continueLoop != "N" && newBook.genreField1 == null && i == 3)
+                    if (continueLoop != "N" && i == 3)
                     {
                         newBook.genreField4 = Console.ReadLine();
                         Console.WriteLine("Genre added!");
                     }
-                    if (continueLoop != "N" && newBook.genreField1 == null && i == 4)
+                    if (continueLoop != "N" && i == 4)
                     {
                         newBook.genreField5 = Console.ReadLine();
                         Console.WriteLine("Genre added!");
                     }
-                    if (continueLoop != "N" && newBook.genreField1 == null && i == 5)
+                    if (continueLoop != "N" && i == 5)
                     {
                         newBook.genreField6 = Console.ReadLine();
                         Console.WriteLine("Genre added!");
                     }
-                    if (continueLoop != "N" && newBook.genreField1 == null && i == 6)
+                    if (continueLoop != "N" && i == 6)
                     {
                         newBook.genreField7 = Console.ReadLine();
                         Console.WriteLine("Genre added!");
                     }
-                    if (continueLoop != "N" && newBook.genreField1 == null && i == 7)
+                    if (continueLoop != "N" && i == 7)
                     {
                         newBook.genreField8 = Console.ReadLine();
                         Console.WriteLine("Genre added!");
                     }
-                    if (continueLoop != "N" && newBook.genreField1 == null && i == 8)
+                    if (continueLoop != "N" && i == 8)
                     {
                         newBook.genreField9 = Console.ReadLine();
                         Console.WriteLine("Genre added!");
                     }
-                    if (continueLoop != "N" && newBook.genreField1 == null && i == 9)
+                    if (continueLoop != "N" && i == 9)
                     {
                         newBook.genreField10 = Console.ReadLine();
                         Console.WriteLine("Genre added!");
