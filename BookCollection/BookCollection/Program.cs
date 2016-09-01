@@ -95,6 +95,16 @@ namespace BookCollection
             }
         }
 
+        private static void genreLoop(ref int i, int iValue, ref Book newBook, string genreField)
+        {
+            if (i == iValue)
+            {
+                var genreProperty = newBook.GetType().GetProperty(genreField); //variable genre property fetches the actual property (indicated by the genreField parameter) of the referenced object (the newBook beging created). This was done because properties of objects cant be directly referenced as arguments into a functions
+                genreProperty.SetValue(newBook, Console.ReadLine()); //since genreProperty is equivalent to the actual property (not to be confused with the value) changing it means changing the property
+                Console.WriteLine("Genre added!");
+            }
+        }
+
         public static Book createNewBook(Book newBook) //scope, association with object, return type, function name, parameter type and name
         {
             Console.WriteLine("What is the name of the book? This has to be unique.");
@@ -108,66 +118,29 @@ namespace BookCollection
             Console.WriteLine("Who is the author? Last name is:");
             newBook.AuthorLast = Console.ReadLine();
             Console.WriteLine("What genre(s) does the book have? You can add up to 10.");
-                for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine("If you would like to add a genre enter 'Y'. If no enter 'N'");
+                string continueLoop = Console.ReadLine();
+                if (continueLoop.ToUpper() == "N" || i >= 10)
                 {
-                    Console.WriteLine("If you would like to add a genre enter 'Y'. If no enter 'N'");
-                    string continueLoop = Console.ReadLine();
-                    if (continueLoop.ToUpper() == "N" || i >= 10)
-                    {
-                        break;
-                    }
-                    Console.WriteLine("Please enter a genre for " + newBook.Title);
-                    if (continueLoop != "N" && i == 0)
-                    {
-                        newBook.genreField1 = Console.ReadLine();
-                        Console.WriteLine("Genre added!");
-                    }
-                    if (continueLoop != "N" && i == 1)
-                    {
-                        newBook.genreField2 = Console.ReadLine();
-                        Console.WriteLine("Genre added!");
-                    }
-                    if (continueLoop != "N" && i == 2)
-                    {
-                        newBook.genreField3 = Console.ReadLine();
-                        Console.WriteLine("Genre added!");
-                    }
-                    if (continueLoop != "N" && i == 3)
-                    {
-                        newBook.genreField4 = Console.ReadLine();
-                        Console.WriteLine("Genre added!");
-                    }
-                    if (continueLoop != "N" && i == 4)
-                    {
-                        newBook.genreField5 = Console.ReadLine();
-                        Console.WriteLine("Genre added!");
-                    }
-                    if (continueLoop != "N" && i == 5)
-                    {
-                        newBook.genreField6 = Console.ReadLine();
-                        Console.WriteLine("Genre added!");
-                    }
-                    if (continueLoop != "N" && i == 6)
-                    {
-                        newBook.genreField7 = Console.ReadLine();
-                        Console.WriteLine("Genre added!");
-                    }
-                    if (continueLoop != "N" && i == 7)
-                    {
-                        newBook.genreField8 = Console.ReadLine();
-                        Console.WriteLine("Genre added!");
-                    }
-                    if (continueLoop != "N" && i == 8)
-                    {
-                        newBook.genreField9 = Console.ReadLine();
-                        Console.WriteLine("Genre added!");
-                    }
-                    if (continueLoop != "N" && i == 9)
-                    {
-                        newBook.genreField10 = Console.ReadLine();
-                        Console.WriteLine("Genre added!");
-                    }
+                    break;
                 }
+                if (continueLoop.ToUpper() == "Y")
+                {
+                    Console.WriteLine("Please enter a genre for " + newBook.Title);
+                    genreLoop(ref i, 0, ref newBook, "genreField1"); //passes in the actual value of i, the specific value of i that refers to the desired stage through the loop, the newBook object being created and the name of the specific genre property to be set
+                    genreLoop(ref i, 1, ref newBook, "genreField2");
+                    genreLoop(ref i, 2, ref newBook, "genreField3");
+                    genreLoop(ref i, 3, ref newBook, "genreField4");
+                    genreLoop(ref i, 4, ref newBook, "genreField5");
+                    genreLoop(ref i, 5, ref newBook, "genreField6");
+                    genreLoop(ref i, 6, ref newBook, "genreField7");
+                    genreLoop(ref i, 7, ref newBook, "genreField8");
+                    genreLoop(ref i, 8, ref newBook, "genreField9");
+                    genreLoop(ref i, 9, ref newBook, "genreField10");
+                }
+            }
             Console.WriteLine("What is your review of the book? If you have not read it or do not want to write a review, say 'N/A'.");
             newBook.Review = Console.ReadLine();
             return newBook;
