@@ -149,14 +149,24 @@ namespace BookCollection
         public static void addNewBook(Book newBook)
         {
             SqlConnection conn = Database.bookCollectionConnection();
-            SqlCommand insertBookAndAuthor = new SqlCommand("spInsertBookAndAuthor @I, @T, @S, @R, @AF, @AL", conn);
-            insertBookAndAuthor.Parameters.Add(new SqlParameter("I", newBook.ISBN));
-            insertBookAndAuthor.Parameters.Add(new SqlParameter("T", newBook.Title));
-            insertBookAndAuthor.Parameters.Add(new SqlParameter("S", newBook.Series));
-            insertBookAndAuthor.Parameters.Add(new SqlParameter("R", newBook.Review));
-            insertBookAndAuthor.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
-            insertBookAndAuthor.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
-            insertBookAndAuthor.ExecuteNonQuery();
+            SqlCommand insertBookAuthorGenre = new SqlCommand("spinsertBookAuthorGenre @I, @T, @S, @R, @AF, @AL, @G1, @G2, @G3, @G4, @G5, @G6, @G7, @G8, @G9, @G10", conn);
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("I", newBook.ISBN));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("T", newBook.Title));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("S", newBook.Series));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("R", newBook.Review));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("G1", newBook.genreField1));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("G2", newBook.genreField2));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("G3", newBook.genreField3));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("G4", newBook.genreField4));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("G5", newBook.genreField5));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("G6", newBook.genreField6));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("G7", newBook.genreField7));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("G8", newBook.genreField8));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("G9", newBook.genreField9));
+            insertBookAuthorGenre.Parameters.Add(new SqlParameter("G10", newBook.genreField10));
+            insertBookAuthorGenre.ExecuteNonQuery();
             SqlCommand insertA_ID = new SqlCommand("spInsertA_ID @AF, @AL, @T", conn); 
             insertA_ID.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
             insertA_ID.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
