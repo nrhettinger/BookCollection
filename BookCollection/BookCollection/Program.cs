@@ -95,14 +95,18 @@ namespace BookCollection
             }
         }
 
-        private static void genreLoop(ref int i, int iValue, ref Book newBook, string genreField)
+        private static string[] genreLoop(ref int i, int iValue, ref Book newBook, string genreField)
         {
             if (i == iValue)
             {
                 var genreProperty = newBook.GetType().GetProperty(genreField); //variable genre property fetches the actual property (indicated by the genreField parameter) of the referenced object (the newBook beging created). This was done because properties of objects cant be directly referenced as arguments into a functions
                 genreProperty.SetValue(newBook, Console.ReadLine()); //since genreProperty is equivalent to the actual property (not to be confused with the value) changing it means changing the property
                 Console.WriteLine("Genre added!");
+                string[] genreList = new string[] { genreProperty.ToString() };
+                return genreList;
             }
+            else
+                return null;
         }
 
         public static Book createNewBook(Book newBook) //scope, association with object, return type, function name, parameter type and name
@@ -146,6 +150,18 @@ namespace BookCollection
             return newBook;
         }
 
+        private static void addGenres(string[] passedGenreList)
+        {
+            string[] genreList = passedGenreList;
+            foreach (string genre in genreList)
+            {
+                SqlConnection conn = Database.bookCollectionConnection();
+                SqlCommand insertGenre = new SqlCommand("spInsertGenre @G", conn);
+                insertGenre.Parameters.Add(new SqlParameter("G", genre));
+                insertGenre.ExecuteNonQuery();
+            }
+        }
+
         public static void addNewBook(Book newBook)
         {
             SqlConnection conn = Database.bookCollectionConnection();
@@ -157,7 +173,7 @@ namespace BookCollection
             insertBookAndAuthor.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
             insertBookAndAuthor.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
             insertBookAndAuthor.ExecuteNonQuery();
-            SqlCommand insertGenre = new SqlCommand("spInsertGenre @G1, @G2, @G3, @G4, @G5, @G6, @G7, @G8, @G9, @G10", conn);
+            /*SqlCommand insertGenre = new SqlCommand("spInsertGenre @G1, @G2, @G3, @G4, @G5, @G6, @G7, @G8, @G9, @G10", conn);
             insertGenre.Parameters.Add(new SqlParameter("G1", newBook.genreField1));
             insertGenre.Parameters.Add(new SqlParameter("G2", newBook.genreField2));
             insertGenre.Parameters.Add(new SqlParameter("G3", newBook.genreField3));
@@ -168,7 +184,7 @@ namespace BookCollection
             insertGenre.Parameters.Add(new SqlParameter("G8", newBook.genreField8));
             insertGenre.Parameters.Add(new SqlParameter("G9", newBook.genreField9));
             insertGenre.Parameters.Add(new SqlParameter("G10", newBook.genreField10));
-            insertGenre.ExecuteNonQuery();
+            insertGenre.ExecuteNonQuery(); */
             SqlCommand insertA_ID = new SqlCommand("spInsertA_ID @AF, @AL, @T", conn); 
             insertA_ID.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
             insertA_ID.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
