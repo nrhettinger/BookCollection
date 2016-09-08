@@ -150,7 +150,7 @@ namespace BookCollection
             return newBook;
         }
 
-        private static void addGenres(string[] passedGenreList)
+        private static void addGenres(string[] passedGenreList, Book newBook)
         {
             string[] genreList = passedGenreList;
             foreach (string genre in genreList)
@@ -159,6 +159,10 @@ namespace BookCollection
                 SqlCommand insertGenre = new SqlCommand("spInsertGenre @G", conn);
                 insertGenre.Parameters.Add(new SqlParameter("G", genre));
                 insertGenre.ExecuteNonQuery();
+                SqlCommand insertB_IDAndG_ID = new SqlCommand("spInsertB_IDAndG_ID @G, @T", conn);
+                insertB_IDAndG_ID.Parameters.Add(new SqlParameter("G", genre));
+                insertB_IDAndG_ID.Parameters.Add(new SqlParameter("T", newBook.Title));
+                insertB_IDAndG_ID.ExecuteNonQuery();
             }
         }
 
