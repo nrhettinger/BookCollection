@@ -81,7 +81,8 @@ namespace BookCollection
         public string genreField7 { get; set; }
         public string genreField8 { get; set; }
         public string genreField9 { get; set; }
-        public string genreField10 { get; set; }    
+        public string genreField10 { get; set; }
+        public string[] genreList { get; set; }
 
         private static void displayBooks(SqlCommand command)
         {
@@ -95,18 +96,18 @@ namespace BookCollection
             }
         }
 
-        private static string[] genreLoop(ref int i, int iValue, ref Book newBook, string genreField)
+        public static void genreLoop(ref int i, int iValue, ref Book newBook, string genreField, string[]passedGenreList)
         {
             if (i == iValue)
             {
                 var genreProperty = newBook.GetType().GetProperty(genreField); //variable genre property fetches the actual property (indicated by the genreField parameter) of the referenced object (the newBook beging created). This was done because properties of objects cant be directly referenced as arguments into a functions
                 genreProperty.SetValue(newBook, Console.ReadLine()); //since genreProperty is equivalent to the actual property (not to be confused with the value) changing it means changing the property
                 Console.WriteLine("Genre added!");
-                string[] genreList = new string[] { genreProperty.ToString() };
-                return genreList;
+                //string[] genreList = new string[] { genreProperty.ToString() };
+                var genreList = passedGenreList;
+                genreList[iValue] = genreProperty.ToString();
+                //return genreList;
             }
-            else
-                return null;
         }
 
         public static Book createNewBook(Book newBook) //scope, association with object, return type, function name, parameter type and name
@@ -122,6 +123,7 @@ namespace BookCollection
             Console.WriteLine("Who is the author? Last name is:");
             newBook.AuthorLast = Console.ReadLine();
             Console.WriteLine("What genre(s) does the book have? You can add up to 10.");
+            string[] genreList = new string[10];
             for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("If you would like to add a genre enter 'Y'. If no enter 'N'");
@@ -133,24 +135,25 @@ namespace BookCollection
                 if (continueLoop.ToUpper() == "Y")
                 {
                     Console.WriteLine("Please enter a genre for " + newBook.Title);
-                    genreLoop(ref i, 0, ref newBook, "genreField1"); //passes in the actual value of i, the specific value of i that refers to the desired stage through the loop, the newBook object being created and the name of the specific genre property to be set
-                    genreLoop(ref i, 1, ref newBook, "genreField2");
-                    genreLoop(ref i, 2, ref newBook, "genreField3");
-                    genreLoop(ref i, 3, ref newBook, "genreField4");
-                    genreLoop(ref i, 4, ref newBook, "genreField5");
-                    genreLoop(ref i, 5, ref newBook, "genreField6");
-                    genreLoop(ref i, 6, ref newBook, "genreField7");
-                    genreLoop(ref i, 7, ref newBook, "genreField8");
-                    genreLoop(ref i, 8, ref newBook, "genreField9");
-                    genreLoop(ref i, 9, ref newBook, "genreField10");
+                    genreLoop(ref i, 0, ref newBook, "genreField1", genreList); //passes in the actual value of i, the specific value of i that refers to the desired stage through the loop, the newBook object being created and the name of the specific genre property to be set
+                    genreLoop(ref i, 1, ref newBook, "genreField2", genreList);
+                    genreLoop(ref i, 2, ref newBook, "genreField3", genreList);
+                    genreLoop(ref i, 3, ref newBook, "genreField4", genreList);
+                    genreLoop(ref i, 4, ref newBook, "genreField5", genreList);
+                    genreLoop(ref i, 5, ref newBook, "genreField6", genreList);
+                    genreLoop(ref i, 6, ref newBook, "genreField7", genreList);
+                    genreLoop(ref i, 7, ref newBook, "genreField8", genreList);
+                    genreLoop(ref i, 8, ref newBook, "genreField9", genreList);
+                    genreLoop(ref i, 9, ref newBook, "genreField10", genreList);
                 }
             }
+            newBook.genreList = genreList;
             Console.WriteLine("What is your review of the book? If you have not read it or do not want to write a review, say 'N/A'.");
             newBook.Review = Console.ReadLine();
             return newBook;
         }
 
-        private static void addGenres(string[] passedGenreList, Book newBook)
+        public static void addGenres(string[] passedGenreList, Book newBook)
         {
             string[] genreList = passedGenreList;
             foreach (string genre in genreList)
@@ -194,6 +197,7 @@ namespace BookCollection
             insertA_ID.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
             insertA_ID.Parameters.Add(new SqlParameter("T", newBook.Title));
             insertA_ID.ExecuteNonQuery();
+            addGenres(newBook.genreList, newBook);
         }
 
         public static void viewAllBooks()
