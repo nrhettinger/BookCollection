@@ -153,15 +153,19 @@ namespace BookCollection
 
         private static void addGenres(Book newBook)
         {
+            SqlConnection conn = Database.bookCollectionConnection();
+            SqlCommand insertGenre = new SqlCommand("spInsertGenre", conn);
+            insertGenre.CommandType = System.Data.CommandType.StoredProcedure;
+            SqlCommand insertB_IDAndG_ID = new SqlCommand("spInsertB_IDAndG_ID @G, @T", conn);
+            insertB_IDAndG_ID.Parameters.Add(new SqlParameter("T", newBook.Title));
             foreach (string genre in newBook.genreList)
             {
-                SqlConnection conn = Database.bookCollectionConnection();
-                SqlCommand insertGenre = new SqlCommand("spInsertGenre", conn);
-                insertGenre.Parameters.Add(new SqlParameter("G", genre));
+                string genreField = genre;
+                Console.WriteLine(genreField);
+                insertGenre.Parameters.Clear();
+                insertGenre.Parameters.Add(new SqlParameter("@G", genreField));
                 insertGenre.ExecuteNonQuery();
-                SqlCommand insertB_IDAndG_ID = new SqlCommand("spInsertB_IDAndG_ID @G, @T", conn);
-                insertB_IDAndG_ID.Parameters.Add(new SqlParameter("G", genre));
-                insertB_IDAndG_ID.Parameters.Add(new SqlParameter("T", newBook.Title));
+                insertB_IDAndG_ID.Parameters.Add(new SqlParameter("G", genreField));
                 insertB_IDAndG_ID.ExecuteNonQuery();
             }
         }
