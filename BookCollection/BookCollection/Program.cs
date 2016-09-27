@@ -91,7 +91,7 @@ namespace BookCollection
                 Console.WriteLine("\nRESULTS:\n\n");
                 while (reader.Read())
                 {
-                    Console.WriteLine("---------------\nTitle: {0}| ISBN: {1}| Author: {2}| Review: {3}\n---------------\n", reader[1], reader[0], reader[7] + " " + reader[8], reader[4]);
+                    Console.WriteLine("---------------\nTitle: {0}| ISBN: {1}| Author: {2}| Review: {3}| Genres: {4}\n---------------\n", reader[1], reader[0], reader[7] + " " + reader[8], reader[4], reader[13]);
                 }
             }
         }
