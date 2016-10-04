@@ -160,8 +160,6 @@ namespace BookCollection
             insertB_IDAndG_ID.CommandType = System.Data.CommandType.StoredProcedure;
             foreach (string genre in newBook.genreList)
             {
-                //string genreField = genre;
-                //Console.WriteLine(genreField);
                 if (genre == null)
                 {
                     break;
