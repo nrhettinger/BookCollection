@@ -160,17 +160,17 @@ namespace BookCollection
             insertB_IDAndG_ID.CommandType = System.Data.CommandType.StoredProcedure;
             foreach (string genre in newBook.genreList)
             {
-                string genreField = genre;
-                Console.WriteLine(genreField);
-                if (genreField == null)
+                //string genreField = genre;
+                //Console.WriteLine(genreField);
+                if (genre == null)
                 {
                     break;
                 }
                 insertGenre.Parameters.Clear();
-                insertGenre.Parameters.Add(new SqlParameter("@G", genreField));
+                insertGenre.Parameters.Add(new SqlParameter("@G", genre));
                 insertGenre.ExecuteNonQuery();
                 insertB_IDAndG_ID.Parameters.Clear();
-                insertB_IDAndG_ID.Parameters.Add(new SqlParameter("@G", genreField));
+                insertB_IDAndG_ID.Parameters.Add(new SqlParameter("@G", genre));
                 insertB_IDAndG_ID.Parameters.Add(new SqlParameter("@T", newBook.Title));
                 insertB_IDAndG_ID.ExecuteNonQuery();
             }
