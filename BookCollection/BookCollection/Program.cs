@@ -18,10 +18,11 @@ namespace BookCollection
                 Console.WriteLine("----------\nMAIN MENU\n----------");
                 Console.WriteLine("C: Create a new book");
                 Console.WriteLine("V: View collection");
-                Console.WriteLine("Q: Quit the application");
                 Console.WriteLine("S: Search collection");
                 Console.WriteLine("U: Update books");
+                Console.WriteLine("AD: Add or delete fields");
                 Console.WriteLine("D: Delete books");
+                Console.WriteLine("Q: Quit the application");
                 string response = Console.ReadLine().ToUpper();
                 switch (response)
                 {
@@ -268,8 +269,8 @@ namespace BookCollection
                             string valueNew = Console.ReadLine();
                             updateField.Parameters.Add(new SqlParameter("VN", valueNew));
                         }
-                        updateField.Parameters.Add(new SqlParameter("rID", recordID));
-                        updateField.Parameters.Add(new SqlParameter("rName", recordN));
+                        updateField.Parameters.Add(new SqlParameter("rID", recordID)); //identifier of record in database
+                        updateField.Parameters.Add(new SqlParameter("rName", recordN)); //search criteria in database, title or isbn
                         updateField.Connection = conn;
                         updateField.ExecuteNonQuery();
                         Console.WriteLine("The " +fieldName+ " is updated!");
