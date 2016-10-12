@@ -267,6 +267,13 @@ namespace BookCollection
                         {
                             Console.WriteLine("Enter the new " + fieldName + ":");
                             string valueNew = Console.ReadLine();
+                            if (fieldName == "Genre(s)")
+                            {
+                                SqlCommand deleteOldGenres = new SqlCommand("spDeleteOldGenres @recordN", conn);
+                                deleteOldGenres.Parameters.Add(new SqlParameter ("recordN", recordN));
+                                deleteOldGenres.ExecuteNonQuery();
+
+                            }
                             updateField.Parameters.Add(new SqlParameter("VN", valueNew));
                         }
                         updateField.Parameters.Add(new SqlParameter("rID", recordID)); //identifier of record in database
