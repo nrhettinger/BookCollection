@@ -272,6 +272,7 @@ namespace BookCollection
                                 SqlCommand deleteOldGenres = new SqlCommand("spDeleteOldGenres @recordN", conn);
                                 deleteOldGenres.Parameters.Add(new SqlParameter ("recordN", recordN));
                                 deleteOldGenres.ExecuteNonQuery();
+                                Book genreHolder = new Book();
 
                             }
                             updateField.Parameters.Add(new SqlParameter("VN", valueNew));
