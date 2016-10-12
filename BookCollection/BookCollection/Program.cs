@@ -109,7 +109,7 @@ namespace BookCollection
             }
         }
 
-        public static void addOrUpdateGenres(Book bookName)
+        public static void createOrUpdateGenres(Book bookName)
         {
             string[] genreList = new string[10];
             for (int i = 0; i < 10; i++)
@@ -150,7 +150,8 @@ namespace BookCollection
             newBook.AuthorFirst = Console.ReadLine();
             Console.WriteLine("Who is the author? Last name is:");
             newBook.AuthorLast = Console.ReadLine();
-            Console.WriteLine("What genre(s) does the book have? You can add up to 10.");
+            Console.WriteLine("What genre(s) does the book have? You can have up to 10.");
+            createOrUpdateGenres(newBook);
             /*string[] genreList = new string[10];
             for (int i = 0; i < 10; i++)
             {
@@ -181,14 +182,14 @@ namespace BookCollection
             return newBook;
         }
 
-        private static void addGenres(Book newBook)
+        private static void addGenres(Book bookName)
         {
             SqlConnection conn = Database.bookCollectionConnection();
             SqlCommand insertGenre = new SqlCommand("spInsertGenre", conn);
             insertGenre.CommandType = System.Data.CommandType.StoredProcedure;
             SqlCommand insertB_IDAndG_ID = new SqlCommand("spInsertB_IDAndG_ID", conn);
             insertB_IDAndG_ID.CommandType = System.Data.CommandType.StoredProcedure;
-            foreach (string genre in newBook.genreList)
+            foreach (string genre in bookName.genreList)
             {
                 if (genre == null)
                 {
@@ -199,7 +200,7 @@ namespace BookCollection
                 insertGenre.ExecuteNonQuery();
                 insertB_IDAndG_ID.Parameters.Clear();
                 insertB_IDAndG_ID.Parameters.Add(new SqlParameter("@G", genre));
-                insertB_IDAndG_ID.Parameters.Add(new SqlParameter("@T", newBook.Title));
+                insertB_IDAndG_ID.Parameters.Add(new SqlParameter("@T", bookName.Title));
                 insertB_IDAndG_ID.ExecuteNonQuery();
             }
         }
@@ -270,7 +271,7 @@ namespace BookCollection
             }
         }
 
-        private static void updateField(string fieldName, string storedProcedure, string recordID, string recordName, string fieldName1 = null, string fieldName2 = null)
+        private static void updateField(string fieldName, string recordID, string recordName, string storedProcedure = null, string fieldName1 = null, string fieldName2 = null)
         {
             SqlConnection conn = Database.bookCollectionConnection();
             Console.WriteLine("Would you like to update the " + fieldName + "? Enter Y (yes) or N (no):");
@@ -292,18 +293,23 @@ namespace BookCollection
                             updateField.Parameters.Add(new SqlParameter("VN1", valueNew1));
                             updateField.Parameters.Add(new SqlParameter("VN2", valueNew2));
                         }
+                        if (fieldName == "Genre(s)")
+                        {
+                            SqlCommand deleteOldGenres = new SqlCommand("spDeleteOldGenres @recordN", conn);
+                            deleteOldGenres.Parameters.Add(new SqlParameter("recordN", recordN));
+                            deleteOldGenres.ExecuteNonQuery();
+                            Book genreHolder = new Book();
+                            if (recordN == "Title")
+                            {
+                                genreHolder.Title = recordID;
+                            }
+                            createOrUpdateGenres(genreHolder);
+                            addGenres(genreHolder);
+                        }
                         else
                         {
                             Console.WriteLine("Enter the new " + fieldName + ":");
                             string valueNew = Console.ReadLine();
-                            if (fieldName == "Genre(s)")
-                            {
-                                SqlCommand deleteOldGenres = new SqlCommand("spDeleteOldGenres @recordN", conn);
-                                deleteOldGenres.Parameters.Add(new SqlParameter ("recordN", recordN));
-                                deleteOldGenres.ExecuteNonQuery();
-                                Book genreHolder = new Book();
-
-                            }
                             updateField.Parameters.Add(new SqlParameter("VN", valueNew));
                         }
                         updateField.Parameters.Add(new SqlParameter("rID", recordID)); //identifier of record in database
@@ -332,17 +338,18 @@ namespace BookCollection
             string recordN = recordName;
             if (recordN == "ISBN")
             {
-                updateField("Title", "spUpdateTitle", recordID, recordN);
-                updateField("Series", "spUpdateSeries", recordID, recordN);
-                updateField("Author", "spUpdateAuthor", recordID, recordN, "first name", "last name");
-                updateField("Review", "spUpdateReview", recordID, recordN);
+                updateField("Title", recordID, recordN, "spUpdateTitle");
+                updateField("Series", recordID, recordN, "spUpdateSeries");
+                updateField("Author", recordID, recordN, "spUpdateAuthor", "first name", "last name");
+                updateField("Review", recordID, recordN, "spUpdateReview");
             }
             else if (recordN == "Title")
             {
-                updateField("ISBN", "spUpdateISBN", recordID, recordN);
-                updateField("Series", "spUpdateSeries", recordID, recordN);
-                updateField("Author", "spUpdateAuthor", recordID, recordN, "first name", "last name");
-                updateField("Review", "spUpdateReview", recordID, recordN);
+                updateField("ISBN", recordID, recordN, "spUpdateISBN");
+                updateField("Series", recordID, recordN, "spUpdateSeries");
+                updateField("Author", recordID, recordN, "spUpdateAuthor", "first name", "last name");
+                updateField("Review", recordID, recordN,"spUpdateReview");
+                updateField("Genre(s)", recordID, recordN);
             }
         }
 
