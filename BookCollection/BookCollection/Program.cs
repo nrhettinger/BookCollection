@@ -295,8 +295,9 @@ namespace BookCollection
                         }
                         if (fieldName == "Genre(s)")
                         {
-                            SqlCommand deleteOldGenres = new SqlCommand("spDeleteOldGenres @recordN", conn);
-                            deleteOldGenres.Parameters.Add(new SqlParameter("recordN", recordN));
+                            SqlCommand deleteOldGenres = new SqlCommand("spDeleteOldGenres @rName, @rID", conn);
+                            deleteOldGenres.Parameters.Add(new SqlParameter("rName", recordN));
+                            deleteOldGenres.Parameters.Add(new SqlParameter("rID", recordID));
                             deleteOldGenres.ExecuteNonQuery();
                             Book genreHolder = new Book();
                             if (recordN == "Title")
