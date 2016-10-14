@@ -306,6 +306,8 @@ namespace BookCollection
                             }
                             createOrUpdateGenres(genreHolder);
                             addGenres(genreHolder);
+                            Console.WriteLine("The " + fieldName + " are updated!");
+                            break;
                         }
                         else
                         {
