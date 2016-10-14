@@ -104,7 +104,6 @@ namespace BookCollection
                 var genreProperty = typeof(Book).GetProperty(genreField); //variable genre property fetches the actual property (indicated by the genreField parameter) of the referenced object (the newBook beging created). This was done because properties of objects cant be directly referenced as arguments into a functions
                 genreProperty.SetValue(newBook, Console.ReadLine(),null); //since genreProperty is equivalent to the actual property (not to be confused with the value) changing it means changing the property
                 Console.WriteLine("Genre added!");
-                string[] genreListLocal = genreList;
                 genreList[iValue] = genreProperty.GetValue(newBook, null).ToString(); //selects the value of the property and puts it in the array
             }
         }
