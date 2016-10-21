@@ -43,6 +43,9 @@ namespace BookCollection
                     case "U":
                         Book.updateBooks();
                         break;
+                    case "DF":
+                        Book.updateBooks();
+                        break;
                     case "D":
                         Book.deleteBooks();
                         break;
@@ -273,12 +276,13 @@ namespace BookCollection
         private static void updateField(string fieldName, string recordID, string recordName, string storedProcedure = null, string fieldName1 = null, string fieldName2 = null)
         {
             SqlConnection conn = Database.bookCollectionConnection();
-            Console.WriteLine("Would you like to update the " + fieldName + "? Enter Y (yes) or N (no):");
+            Console.WriteLine("Would you like to update or delete the " + fieldName + "? Enter Y (yes) or N (no):");
             string recordN = recordName;
             string response = Console.ReadLine().ToUpper();
             switch (response) 
             {
                 case "Y":
+                    Console.WriteLine("If you want to delete a field leave the field blank when prompted to type in a new value.");
                     SqlCommand updateField = new SqlCommand();
                     updateField.CommandType = System.Data.CommandType.StoredProcedure;
                     updateField.CommandText = storedProcedure;
@@ -335,7 +339,7 @@ namespace BookCollection
 
         private static void runUpdateFieldFunctions(string recordName)
         {
-            Console.WriteLine("You can update all the fields except the "+recordName+". Enter the "+recordName+" of the book you want to update:");
+            Console.WriteLine("You can update or delete all the fields except the "+recordName+". Enter the "+recordName+" of the book you want to update:");
             string recordID = Console.ReadLine();
             string recordN = recordName;
             if (recordN == "ISBN")
@@ -357,7 +361,7 @@ namespace BookCollection
 
         public static void updateBooks() 
         {
-            Console.WriteLine("Which book would you like to update? You can select by ISBN or title. Select I (ISBN) or T (Title) below:");
+            Console.WriteLine("Which book would you like to change? You can select by ISBN or title. Select I (ISBN) or T (Title) below:");
             string response = Console.ReadLine().ToUpper();
             switch (response)
             {
