@@ -111,7 +111,7 @@ namespace BookCollection
             }
         }
 
-        public static void createOrUpdateGenres(Book bookName)
+        public static void genrePlaceholder(Book bookName) //calls on the genreLoop function to place passed in genres into properties and then into the book genreList array. From there those genres can be put into the database or deleted.
         {
             string[] genreList = new string[10];
             for (int i = 0; i < 10; i++)
@@ -153,7 +153,7 @@ namespace BookCollection
             Console.WriteLine("Who is the author? Last name is:");
             newBook.AuthorLast = Console.ReadLine();
             Console.WriteLine("What genre(s) does the book have? You can have up to 10.");
-            createOrUpdateGenres(newBook);
+            genrePlaceholder(newBook);
             /*string[] genreList = new string[10];
             for (int i = 0; i < 10; i++)
             {
@@ -307,7 +307,7 @@ namespace BookCollection
                             {
                                 genreHolder.Title = recordID;
                             }
-                            createOrUpdateGenres(genreHolder);
+                            genrePlaceholder(genreHolder);
                             addGenres(genreHolder);
                             Console.WriteLine("The " + fieldName + " are updated!");
                             break;
