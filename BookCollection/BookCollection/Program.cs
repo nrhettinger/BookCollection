@@ -335,7 +335,7 @@ namespace BookCollection
                                     addGenres(genreHolder);
                                     break;
                                 case "D":
-                                    deleteGenres(genreHolder);
+                                    deleteGenres(genreHolder, recordN, recordID);
                                     break;
                             }
                             Console.WriteLine("The " + fieldName + " are updated!");
