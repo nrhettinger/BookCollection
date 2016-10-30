@@ -317,17 +317,13 @@ namespace BookCollection
                         }
                         if (fieldName == "Genre(s)")
                         {
-                            SqlCommand deleteOldGenres = new SqlCommand("spDeleteOldGenres @rName, @rID", conn);
-                            deleteOldGenres.Parameters.Add(new SqlParameter("rName", recordN));
-                            deleteOldGenres.Parameters.Add(new SqlParameter("rID", recordID));
-                            deleteOldGenres.ExecuteNonQuery();
                             Book genreHolder = new Book();
                             if (recordN == "Title")
                             {
                                 genreHolder.Title = recordID;
                             }
                             genrePlaceholder(genreHolder);
-                            Console.WriteLine("If you want to add the genres, type 'A'. If you want to delete them type 'D'.");
+                            Console.WriteLine("If you want to add the genres type 'A', delete type 'D' or update type 'U':");
                             var genreOptions = Console.ReadLine();
                             switch (genreOptions)
                             {
@@ -336,6 +332,13 @@ namespace BookCollection
                                     break;
                                 case "D":
                                     deleteGenres(genreHolder, recordN, recordID);
+                                    break;
+                                case "U":
+                                    SqlCommand deleteOldGenres = new SqlCommand("spDeleteOldGenres @rName, @rID", conn);
+                                    deleteOldGenres.Parameters.Add(new SqlParameter("rName", recordN));
+                                    deleteOldGenres.Parameters.Add(new SqlParameter("rID", recordID));
+                                    deleteOldGenres.ExecuteNonQuery();
+                                    addGenres(genreHolder);
                                     break;
                             }
                             Console.WriteLine("The " + fieldName + " are updated!");
