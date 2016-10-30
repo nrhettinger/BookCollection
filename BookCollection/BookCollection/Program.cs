@@ -116,7 +116,7 @@ namespace BookCollection
             string[] genreList = new string[10];
             for (int i = 0; i < 10; i++)
             {
-                Console.WriteLine("If you would like to add a genre enter 'Y'. If no enter 'N'");
+                Console.WriteLine("If you would like to enter a genre type 'Y'. If no type 'N'");
                 string continueLoop = Console.ReadLine();
                 if (continueLoop.ToUpper() == "N" || i >= 10)
                 {
@@ -207,6 +207,25 @@ namespace BookCollection
             }
         }
 
+        private static void deleteGenres(Book bookName, string recordName = null, string recordID = null)
+        {
+            SqlConnection conn = Database.bookCollectionConnection();
+            SqlCommand deleteGenre = new SqlCommand("spdeleteGenre", conn);
+            deleteGenre.CommandType = System.Data.CommandType.StoredProcedure;
+            foreach (string genre in bookName.genreList)
+            {
+                if (genre == null)
+                {
+                    break;
+                }
+                deleteGenre.Parameters.Clear();
+                deleteGenre.Parameters.Add(new SqlParameter("@G", genre));
+                deleteGenre.Parameters.Add(new SqlParameter("@rName", recordName));
+                deleteGenre.Parameters.Add(new SqlParameter("@rID", recordID));
+                deleteGenre.ExecuteNonQuery();
+            }
+        }
+
         public static void addNewBook(Book newBook)
         {
             SqlConnection conn = Database.bookCollectionConnection();
@@ -282,7 +301,7 @@ namespace BookCollection
             switch (response) 
             {
                 case "Y":
-                    Console.WriteLine("If you want to delete a field leave the field blank when prompted to type in a new value.");
+                    Console.WriteLine("If you want to delete a field (except genres) leave the field blank when prompted to type in a new value.");
                     SqlCommand updateField = new SqlCommand();
                     updateField.CommandType = System.Data.CommandType.StoredProcedure;
                     updateField.CommandText = storedProcedure;
@@ -308,7 +327,17 @@ namespace BookCollection
                                 genreHolder.Title = recordID;
                             }
                             genrePlaceholder(genreHolder);
-                            addGenres(genreHolder);
+                            Console.WriteLine("If you want to add the genres, type 'A'. If you want to delete them type 'D'.");
+                            var genreOptions = Console.ReadLine();
+                            switch (genreOptions)
+                            {
+                                case "A":
+                                    addGenres(genreHolder);
+                                    break;
+                                case "D":
+                                    deleteGenres(genreHolder);
+                                    break;
+                            }
                             Console.WriteLine("The " + fieldName + " are updated!");
                             break;
                         }
