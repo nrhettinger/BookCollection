@@ -324,7 +324,7 @@ namespace BookCollection
                             }
                             genrePlaceholder(genreHolder);
                             Console.WriteLine("If you want to add the genres type 'A', delete type 'D' or update type 'U':");
-                            var genreOptions = Console.ReadLine();
+                            var genreOptions = Console.ReadLine().ToUpper();
                             switch (genreOptions)
                             {
                                 case "A":
