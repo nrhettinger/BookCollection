@@ -20,7 +20,6 @@ namespace BookCollection
                 Console.WriteLine("V:  View collection");
                 Console.WriteLine("S:  Search collection");
                 Console.WriteLine("U:  Update books");
-                Console.WriteLine("DF: Delete book field(s)");
                 Console.WriteLine("D:  Delete books");
                 Console.WriteLine("Q:  Quit the application");
                 string response = Console.ReadLine().ToUpper();
@@ -41,9 +40,6 @@ namespace BookCollection
                         Book.searchBooks();
                         break;
                     case "U":
-                        Book.updateBooks();
-                        break;
-                    case "DF":
                         Book.updateBooks();
                         break;
                     case "D":
@@ -295,7 +291,7 @@ namespace BookCollection
         private static void updateField(string fieldName, string recordID, string recordName, string storedProcedure = null, string fieldName1 = null, string fieldName2 = null)
         {
             SqlConnection conn = Database.bookCollectionConnection();
-            Console.WriteLine("Would you like to update or delete the " + fieldName + "? Enter Y (yes) or N (no):");
+            Console.WriteLine("Would you like to update/delete the " + fieldName + "? Enter Y (yes) or N (no):");
             string recordN = recordName;
             string response = Console.ReadLine().ToUpper();
             switch (response) 
@@ -339,7 +335,7 @@ namespace BookCollection
                                     deleteOldGenres.Parameters.Add(new SqlParameter("rName", recordN));
                                     deleteOldGenres.Parameters.Add(new SqlParameter("rID", recordID));
                                     deleteOldGenres.ExecuteNonQuery();
-                                    genrePlaceholder(genreHolder, "add");
+                                    genrePlaceholder(genreHolder, "update");
                                     addGenres(genreHolder);
                                     break;
                             }
