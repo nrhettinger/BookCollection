@@ -111,12 +111,12 @@ namespace BookCollection
             }
         }
 
-        public static void genrePlaceholder(Book bookName) //calls on the genreLoop function to place passed in genres into properties and then into the book genreList array. From there those genres can be put into the database or deleted.
+        public static void genrePlaceholder(Book bookName, string action = null) //calls on the genreLoop function to place passed in genres into properties and then into the book genreList array. From there those genres can be put into the database or deleted.
         {
             string[] genreList = new string[10];
             for (int i = 0; i < 10; i++)
             {
-                Console.WriteLine("If you would like to enter a genre type 'Y'. If no type 'N'");
+                Console.WriteLine("If you would like to "+action+" a genre type 'Y'. If no type 'N'");
                 string continueLoop = Console.ReadLine();
                 if (continueLoop.ToUpper() == "N" || i >= 10)
                 {
@@ -153,7 +153,7 @@ namespace BookCollection
             Console.WriteLine("Who is the author? Last name is:");
             newBook.AuthorLast = Console.ReadLine();
             Console.WriteLine("What genre(s) does the book have? You can have up to 10.");
-            genrePlaceholder(newBook);
+            genrePlaceholder(newBook, "add");
             /*string[] genreList = new string[10];
             for (int i = 0; i < 10; i++)
             {
@@ -322,15 +322,16 @@ namespace BookCollection
                             {
                                 genreHolder.Title = recordID;
                             }
-                            genrePlaceholder(genreHolder);
                             Console.WriteLine("If you want to add the genres type 'A', delete type 'D' or update type 'U':");
                             var genreOptions = Console.ReadLine().ToUpper();
                             switch (genreOptions)
                             {
                                 case "A":
+                                    genrePlaceholder(genreHolder, "add");
                                     addGenres(genreHolder);
                                     break;
                                 case "D":
+                                    genrePlaceholder(genreHolder, "delete");
                                     deleteGenres(genreHolder, recordN, recordID);
                                     break;
                                 case "U":
@@ -338,6 +339,7 @@ namespace BookCollection
                                     deleteOldGenres.Parameters.Add(new SqlParameter("rName", recordN));
                                     deleteOldGenres.Parameters.Add(new SqlParameter("rID", recordID));
                                     deleteOldGenres.ExecuteNonQuery();
+                                    genrePlaceholder(genreHolder, "add");
                                     addGenres(genreHolder);
                                     break;
                             }
