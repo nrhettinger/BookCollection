@@ -350,6 +350,7 @@ namespace BookCollection
                         }
                         updateField.Parameters.Add(new SqlParameter("rID", recordID)); //identifier of record in database
                         updateField.Parameters.Add(new SqlParameter("rName", recordN)); //search criteria in database, title or isbn
+                        updateField.Parameters.Add(new SqlParameter("rField", fieldName)); //field that needs to be updated
                         updateField.Connection = conn;
                         updateField.ExecuteNonQuery();
                         Console.WriteLine("The " +fieldName+ " is updated!");
@@ -374,17 +375,17 @@ namespace BookCollection
             string recordN = recordName;
             if (recordN == "ISBN")
             {
-                updateField("Title", recordID, recordN, "spUpdateTitle");
-                updateField("Series", recordID, recordN, "spUpdateSeries");
+                updateField("Title", recordID, recordN, "spUpdateField");
+                updateField("Series", recordID, recordN, "spUpdateField");
                 updateField("Author", recordID, recordN, "spUpdateAuthor", "first name", "last name");
-                updateField("Review", recordID, recordN, "spUpdateReview");
+                updateField("Review", recordID, recordN, "spUpdateField");
             }
             else if (recordN == "Title")
             {
-                updateField("ISBN", recordID, recordN, "spUpdateISBN");
-                updateField("Series", recordID, recordN, "spUpdateSeries");
+                updateField("ISBN", recordID, recordN, "spUpdateField");
+                updateField("Series", recordID, recordN, "spUpdateField");
                 updateField("Author", recordID, recordN, "spUpdateAuthor", "first name", "last name");
-                updateField("Review", recordID, recordN,"spUpdateReview");
+                updateField("Review", recordID, recordN, "spUpdateField");
                 updateField("Genre(s)", recordID, recordN);
             }
         }
