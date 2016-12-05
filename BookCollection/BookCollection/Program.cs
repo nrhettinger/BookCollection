@@ -120,7 +120,14 @@ namespace BookCollection
                 }
                 if (continueLoop.ToUpper() == "Y")
                 {
-                    Console.WriteLine("Please enter a genre for " + bookName.Title);
+                    if (bookName.Title == null)
+                    {
+                        Console.WriteLine("Please enter a genre for " + bookName.ISBN);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please enter a genre for " + bookName.Title);
+                    }
                     genreLoop(ref i, 0, ref bookName, "genreField1", ref genreList); //passes in the actual value of i, the specific value of i that refers to the desired stage through the loop, the newBook object being created and the name of the specific genre property to be set
                     genreLoop(ref i, 1, ref bookName, "genreField2", ref genreList);
                     genreLoop(ref i, 2, ref bookName, "genreField3", ref genreList);
@@ -317,6 +324,10 @@ namespace BookCollection
                             if (recordN == "Title")
                             {
                                 genreHolder.Title = recordID;
+                            }
+                            else if (recordN == "ISBN")
+                            {
+                                genreHolder.ISBN = recordID;
                             }
                             Console.WriteLine("If you want to add the genres type 'A', delete type 'D' or update type 'U':");
                             var genreOptions = Console.ReadLine().ToUpper();
