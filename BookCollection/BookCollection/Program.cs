@@ -288,7 +288,7 @@ namespace BookCollection
             }
         }
 
-        private static void updateField(string fieldName, string recordID, string recordName, string storedProcedure = null, string fieldName1 = null, string fieldName2 = null)
+        private static void updateField(string fieldName, string recordID, string recordName, string storedProcedure = null, string tName = null, string fieldName1 = null, string fieldName2 = null)
         {
             SqlConnection conn = Database.bookCollectionConnection();
             Console.WriteLine("Would you like to update/delete the " + fieldName + "? Enter Y (yes) or N (no):");
@@ -347,10 +347,11 @@ namespace BookCollection
                             Console.WriteLine("Enter the new " + fieldName + ":");
                             string valueNew = Console.ReadLine();
                             updateField.Parameters.Add(new SqlParameter("VN", valueNew));
+                            updateField.Parameters.Add(new SqlParameter("rField", fieldName)); //field that needs to be updated
                         }
                         updateField.Parameters.Add(new SqlParameter("rID", recordID)); //identifier of record in database
                         updateField.Parameters.Add(new SqlParameter("rName", recordN)); //search criteria in database, title or isbn
-                        updateField.Parameters.Add(new SqlParameter("rField", fieldName)); //field that needs to be updated
+                        updateField.Parameters.Add(new SqlParameter("table", tName));//table that contains field to be updated
                         updateField.Connection = conn;
                         updateField.ExecuteNonQuery();
                         Console.WriteLine("The " +fieldName+ " is updated!");
@@ -375,17 +376,17 @@ namespace BookCollection
             string recordN = recordName;
             if (recordN == "ISBN")
             {
-                updateField("Title", recordID, recordN, "spUpdateField");
-                updateField("Series", recordID, recordN, "spUpdateField");
+                updateField("Title", recordID, recordN, "spUpdateField", "Books");
+                updateField("Series", recordID, recordN, "spUpdateField", "Books");
                 updateField("Author", recordID, recordN, "spUpdateAuthor", "first name", "last name");
-                updateField("Review", recordID, recordN, "spUpdateField");
+                updateField("Review", recordID, recordN, "spUpdateField", "Books");
             }
             else if (recordN == "Title")
             {
-                updateField("ISBN", recordID, recordN, "spUpdateField");
-                updateField("Series", recordID, recordN, "spUpdateField");
+                updateField("ISBN", recordID, recordN, "spUpdateField", "Books");
+                updateField("Series", recordID, recordN, "spUpdateField", "Books");
                 updateField("Author", recordID, recordN, "spUpdateAuthor", "first name", "last name");
-                updateField("Review", recordID, recordN, "spUpdateField");
+                updateField("Review", recordID, recordN, "spUpdateField", "Books");
                 updateField("Genre(s)", recordID, recordN);
             }
         }
