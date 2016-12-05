@@ -96,13 +96,13 @@ namespace BookCollection
             }
         }
 
-        public static void genreLoop(ref int i, int iValue, ref Book newBook, string genreField, ref string[] genreList)
+        public static void genreLoop(ref int i, int iValue, Book newBook, string genreField, ref string[] genreList)
         {
             if (i == iValue)
             {
                 var genreProperty = typeof(Book).GetProperty(genreField); //variable genre property fetches the actual property (indicated by the genreField parameter) of the referenced object (the newBook beging created). This was done because properties of objects cant be directly referenced as arguments into a functions
                 genreProperty.SetValue(newBook, Console.ReadLine(),null); //since genreProperty is equivalent to the actual property (not to be confused with the value) changing it means changing the property
-                Console.WriteLine("Genre added!");
+                Console.WriteLine("Done!");
                 genreList[iValue] = genreProperty.GetValue(newBook, null).ToString(); //selects the value of the property and puts it in the array
             }
         }
@@ -120,24 +120,17 @@ namespace BookCollection
                 }
                 if (continueLoop.ToUpper() == "Y")
                 {
-                    if (bookName.Title == null)
-                    {
-                        Console.WriteLine("Please enter a genre for " + bookName.ISBN);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please enter a genre for " + bookName.Title);
-                    }
-                    genreLoop(ref i, 0, ref bookName, "genreField1", ref genreList); //passes in the actual value of i, the specific value of i that refers to the desired stage through the loop, the newBook object being created and the name of the specific genre property to be set
-                    genreLoop(ref i, 1, ref bookName, "genreField2", ref genreList);
-                    genreLoop(ref i, 2, ref bookName, "genreField3", ref genreList);
-                    genreLoop(ref i, 3, ref bookName, "genreField4", ref genreList);
-                    genreLoop(ref i, 4, ref bookName, "genreField5", ref genreList);
-                    genreLoop(ref i, 5, ref bookName, "genreField6", ref genreList);
-                    genreLoop(ref i, 6, ref bookName, "genreField7", ref genreList);
-                    genreLoop(ref i, 7, ref bookName, "genreField8", ref genreList);
-                    genreLoop(ref i, 8, ref bookName, "genreField9", ref genreList);
-                    genreLoop(ref i, 9, ref bookName, "genreField10", ref genreList);
+                    Console.WriteLine("Please enter a genre for " + bookName.Title);
+                    genreLoop(ref i, 0, bookName, "genreField1", ref genreList); //passes in the actual value of i, the specific value of i that refers to the desired stage through the loop, the newBook object being created and the name of the specific genre property to be set
+                    genreLoop(ref i, 1, bookName, "genreField2", ref genreList);
+                    genreLoop(ref i, 2, bookName, "genreField3", ref genreList);
+                    genreLoop(ref i, 3, bookName, "genreField4", ref genreList);
+                    genreLoop(ref i, 4, bookName, "genreField5", ref genreList);
+                    genreLoop(ref i, 5, bookName, "genreField6", ref genreList);
+                    genreLoop(ref i, 6, bookName, "genreField7", ref genreList);
+                    genreLoop(ref i, 7, bookName, "genreField8", ref genreList);
+                    genreLoop(ref i, 8, bookName, "genreField9", ref genreList);
+                    genreLoop(ref i, 9, bookName, "genreField10", ref genreList);
                 }
             }
             bookName.genreList = genreList;
@@ -325,9 +318,20 @@ namespace BookCollection
                             {
                                 genreHolder.Title = recordID;
                             }
-                            else if (recordN == "ISBN")
+                            else if (genreHolder.Title == null)
                             {
                                 genreHolder.ISBN = recordID;
+                                using (SqlCommand retrieveTitle = new SqlCommand("spRetrieveTitle", conn))
+                                {
+                                    retrieveTitle.CommandType = System.Data.CommandType.StoredProcedure;
+                                    SqlParameter T = new SqlParameter("T", genreHolder.Title);
+                                    T.Direction = System.Data.ParameterDirection.Output;
+                                    T.Size = 255;
+                                    retrieveTitle.Parameters.Add(T);
+                                    retrieveTitle.Parameters.Add(new SqlParameter("I", genreHolder.ISBN));
+                                    retrieveTitle.ExecuteNonQuery();
+                                    genreHolder.Title = retrieveTitle.Parameters["T"].Value.ToString();
+                                }
                             }
                             Console.WriteLine("If you want to add the genres type 'A', delete type 'D' or update type 'U':");
                             var genreOptions = Console.ReadLine().ToUpper();
@@ -362,7 +366,7 @@ namespace BookCollection
                         }
                         updateField.Parameters.Add(new SqlParameter("rID", recordID)); //identifier of record in database
                         updateField.Parameters.Add(new SqlParameter("rName", recordN)); //search criteria in database, title or isbn
-                        updateField.Parameters.Add(new SqlParameter("table", tName));//table that contains field to be updated
+                        updateField.Parameters.Add(new SqlParameter("tName", tName));//table that contains field to be updated
                         updateField.Connection = conn;
                         updateField.ExecuteNonQuery();
                         Console.WriteLine("The " +fieldName+ " is updated!");
