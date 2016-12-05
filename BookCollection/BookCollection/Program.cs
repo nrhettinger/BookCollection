@@ -377,18 +377,15 @@ namespace BookCollection
             if (recordN == "ISBN")
             {
                 updateField("Title", recordID, recordN, "spUpdateField", "Books");
-                updateField("Series", recordID, recordN, "spUpdateField", "Books");
-                updateField("Author", recordID, recordN, "spUpdateAuthor", "first name", "last name");
-                updateField("Review", recordID, recordN, "spUpdateField", "Books");
             }
             else if (recordN == "Title")
             {
                 updateField("ISBN", recordID, recordN, "spUpdateField", "Books");
-                updateField("Series", recordID, recordN, "spUpdateField", "Books");
-                updateField("Author", recordID, recordN, "spUpdateAuthor", "first name", "last name");
-                updateField("Review", recordID, recordN, "spUpdateField", "Books");
-                updateField("Genre(s)", recordID, recordN);
             }
+            updateField("Series", recordID, recordN, "spUpdateField", "Books");
+            updateField("Author", recordID, recordN, "spUpdateAuthor", "first name", "last name");
+            updateField("Review", recordID, recordN, "spUpdateField", "Books");
+            updateField("Genre(s)", recordID, recordN);
         }
 
         public static void updateBooks() 
