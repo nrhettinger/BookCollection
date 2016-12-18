@@ -96,7 +96,7 @@ namespace BookCollection
             }
         }
 
-        public static void genreLoop(ref int i, int iValue, Book newBook, string genreField, ref string[] genreList)
+        private static void genreLoop(ref int i, int iValue, Book newBook, string genreField, ref string[] genreList)
         {
             if (i == iValue)
             {
@@ -107,7 +107,7 @@ namespace BookCollection
             }
         }
 
-        public static void genrePlaceholder(Book bookName, string action = null) //calls on the genreLoop function to place passed in genres into properties and then into the book genreList array. From there those genres can be put into the database or deleted.
+        private static void genrePlaceholder(Book bookName, string action = null) //calls on the genreLoop function to place passed in genres into properties and then into the book genreList array. From there those genres can be put into the database or deleted.
         {
             string[] genreList = new string[10];
             for (int i = 0; i < 10; i++)
@@ -288,6 +288,52 @@ namespace BookCollection
             }
         }
 
+        private static void updateGenre(string fieldName, string recordID, string recordName, string storedProcedure, SqlConnection conn)
+        {
+            Book genreHolder = new Book();
+            if (recordName == "Title")
+            {
+                genreHolder.Title = recordID;
+            }
+            else if (genreHolder.Title == null)
+            {
+                genreHolder.ISBN = recordID;
+                using (SqlCommand retrieveTitle = new SqlCommand("spRetrieveTitle", conn)) //retrieves title of book if only ISBN is given
+                {
+                    retrieveTitle.CommandType = System.Data.CommandType.StoredProcedure;
+                    SqlParameter T = new SqlParameter("T", genreHolder.Title);
+                    T.Direction = System.Data.ParameterDirection.Output;
+                    T.Size = 255;
+                    retrieveTitle.Parameters.Add(T);
+                    retrieveTitle.Parameters.Add(new SqlParameter("I", genreHolder.ISBN));
+                    retrieveTitle.ExecuteNonQuery();
+                    genreHolder.Title = retrieveTitle.Parameters["T"].Value.ToString();
+                }
+            }
+            Console.WriteLine("If you want to add the genres type 'A', delete type 'D' or update type 'U':");
+            var genreOptions = Console.ReadLine().ToUpper();
+            switch (genreOptions)
+            {
+                case "A":
+                    genrePlaceholder(genreHolder, "add");
+                    addGenres(genreHolder);
+                    break;
+                case "D":
+                    genrePlaceholder(genreHolder, "delete");
+                    deleteGenres(genreHolder, recordName, recordID);
+                    break;
+                case "U":
+                    SqlCommand deleteOldGenres = new SqlCommand("spDeleteOldGenres @rName, @rID", conn);
+                    deleteOldGenres.Parameters.Add(new SqlParameter("rName", recordName));
+                    deleteOldGenres.Parameters.Add(new SqlParameter("rID", recordID));
+                    deleteOldGenres.ExecuteNonQuery();
+                    genrePlaceholder(genreHolder, "update");
+                    addGenres(genreHolder);
+                    break;
+            }
+            Console.WriteLine("The " + fieldName + " are updated!");
+        }
+
         private static void updateField(string fieldName, string recordID, string recordName, string storedProcedure = null, string tName = null, string fieldName1 = null, string fieldName2 = null)
         {
             SqlConnection conn = Database.bookCollectionConnection();
@@ -313,6 +359,10 @@ namespace BookCollection
                         }
                         if (fieldName == "Genre(s)")
                         {
+                            updateGenre(fieldName, recordID, recordName, storedProcedure, conn);
+                            break;
+                        }
+                        /*{
                             Book genreHolder = new Book();
                             if (recordN == "Title")
                             {
@@ -321,7 +371,7 @@ namespace BookCollection
                             else if (genreHolder.Title == null)
                             {
                                 genreHolder.ISBN = recordID;
-                                using (SqlCommand retrieveTitle = new SqlCommand("spRetrieveTitle", conn))
+                                using (SqlCommand retrieveTitle = new SqlCommand("spRetrieveTitle", conn)) //retrieves title of book if only ISBN is given
                                 {
                                     retrieveTitle.CommandType = System.Data.CommandType.StoredProcedure;
                                     SqlParameter T = new SqlParameter("T", genreHolder.Title);
@@ -356,7 +406,7 @@ namespace BookCollection
                             }
                             Console.WriteLine("The " + fieldName + " are updated!");
                             break;
-                        }
+                        }*/
                         else
                         {
                             Console.WriteLine("Enter the new " + fieldName + ":");
