@@ -84,6 +84,8 @@ namespace BookCollection
         public string genreField10 { get; set; }
         public string[] genreList { get; set; }
 
+        StringBuilder errorMessages = new StringBuilder();
+
         private static void displayBooks(SqlCommand command)
         {
             using (SqlDataReader reader = command.ExecuteReader())
@@ -207,7 +209,24 @@ namespace BookCollection
             insertBookAndAuthor.Parameters.Add(new SqlParameter("R", newBook.Review));
             insertBookAndAuthor.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
             insertBookAndAuthor.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
-            insertBookAndAuthor.ExecuteNonQuery();
+            try
+            {
+                insertBookAndAuthor.ExecuteNonQuery();
+            }
+            catch(SqlException ex)
+            {
+                for (int i = 0; i < ex.Errors.Count; i++)
+                {
+                    newBook.errorMessages.Append("Index #" + i + "\n" +
+                        "Message: " + ex.Errors[i].Message + "\n" +
+                        "Error Number: " + ex.Errors[i].Number + "\n" +
+                        "LineNumber: " + ex.Errors[i].LineNumber + "\n" +
+                        "Source: " + ex.Errors[i].Source + "\n" +
+                        "Procedure: " + ex.Errors[i].Procedure + "\n");
+                }
+                Console.WriteLine(newBook.errorMessages.ToString());
+            }
+            Console.ReadLine();
             SqlCommand insertA_ID = new SqlCommand("spInsertA_ID @AF, @AL, @T", conn); 
             insertA_ID.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
             insertA_ID.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
