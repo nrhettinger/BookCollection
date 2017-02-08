@@ -150,31 +150,6 @@ namespace BookCollection
             newBook.AuthorLast = Console.ReadLine();
             Console.WriteLine("What genre(s) does the book have? You can have up to 10.");
             genrePlaceholder(newBook, "add");
-            /*string[] genreList = new string[10];
-            for (int i = 0; i < 10; i++)
-            {
-                Console.WriteLine("If you would like to add a genre enter 'Y'. If no enter 'N'");
-                string continueLoop = Console.ReadLine();
-                if (continueLoop.ToUpper() == "N" || i >= 10)
-                {
-                    break;
-                }
-                if (continueLoop.ToUpper() == "Y")
-                {
-                    Console.WriteLine("Please enter a genre for " + newBook.Title);
-                    genreLoop(ref i, 0, ref newBook, "genreField1", ref genreList); //passes in the actual value of i, the specific value of i that refers to the desired stage through the loop, the newBook object being created and the name of the specific genre property to be set
-                    genreLoop(ref i, 1, ref newBook, "genreField2", ref genreList);
-                    genreLoop(ref i, 2, ref newBook, "genreField3", ref genreList);
-                    genreLoop(ref i, 3, ref newBook, "genreField4", ref genreList);
-                    genreLoop(ref i, 4, ref newBook, "genreField5", ref genreList);
-                    genreLoop(ref i, 5, ref newBook, "genreField6", ref genreList);
-                    genreLoop(ref i, 6, ref newBook, "genreField7", ref genreList);
-                    genreLoop(ref i, 7, ref newBook, "genreField8", ref genreList);
-                    genreLoop(ref i, 8, ref newBook, "genreField9", ref genreList);
-                    genreLoop(ref i, 9, ref newBook, "genreField10", ref genreList);
-                }
-            }
-            newBook.genreList = genreList; */
             Console.WriteLine("What is your review of the book? If you have not read it or do not want to write a review, say 'N/A'.");
             newBook.Review = Console.ReadLine();
             return newBook;
