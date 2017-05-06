@@ -86,6 +86,28 @@ namespace BookCollection
 
         StringBuilder errorMessages = new StringBuilder();
 
+        public static void errorMessage(SqlCommand command)
+        {
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                for (int i = 0; i < ex.Errors.Count; i++)
+                {
+                    newBook.errorMessages.Append("Index #" + i + "\n" +
+                    "Message: " + ex.Errors[i].Message + "\n" +
+                    "Error Number: " + ex.Errors[i].Number + "\n" +
+                    "LineNumber: " + ex.Errors[i].LineNumber + "\n" +
+                    "Source: " + ex.Errors[i].Source + "\n" +
+                    "Procedure: " + ex.Errors[i].Procedure + "\n");
+                }
+                Console.WriteLine(newBook.errorMessages.ToString());
+            }
+            Console.ReadLine();
+        }
+
         private static void displayBooks(SqlCommand command)
         {
             using (SqlDataReader reader = command.ExecuteReader())
