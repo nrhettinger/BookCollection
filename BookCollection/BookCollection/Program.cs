@@ -120,7 +120,7 @@ namespace BookCollection
             }
         }
 
-        private static void genreLoop(ref int i, int iValue, Book newBook, string genreField, ref string[] genreList)
+        private static void genreLoop(ref int i, int iValue, Book newBook, string genreField, ref string[] genreList) //selects one of the genre properties (up to 10), inserts the specified genre into it, extracts the value and places it into the genreList array
         {
             if (i == iValue)
             {
@@ -231,7 +231,8 @@ namespace BookCollection
             insertBookAndAuthor.Parameters.Add(new SqlParameter("R", newBook.Review));
             insertBookAndAuthor.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
             insertBookAndAuthor.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
-            try
+            Database.errorMessage(insertBookAndAuthor, newBook);
+            /*try
             {
                 insertBookAndAuthor.ExecuteNonQuery();
             }
@@ -248,7 +249,7 @@ namespace BookCollection
                 }
                 Console.WriteLine(newBook.errorMessages.ToString());
             }
-            Console.ReadLine();
+            Console.ReadLine();*/
             SqlCommand insertA_ID = new SqlCommand("spInsertA_ID @AF, @AL, @T", conn); 
             insertA_ID.Parameters.Add(new SqlParameter("AF", newBook.AuthorFirst));
             insertA_ID.Parameters.Add(new SqlParameter("AL", newBook.AuthorLast));
