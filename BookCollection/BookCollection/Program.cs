@@ -94,7 +94,7 @@ namespace BookCollection
         public string AuthorFirst { get; set; }
         public string AuthorLast { get; set; }
         public string Review { get; set; }
-        public string genreField1 { get; set; }
+        public string genreField1 { get; set; } //Genre properties created so that each book can hold multiple genres. Individual properties are needed so that each genre can go into the genreList array as a seperate value. Putting them in all at once would lump them together into one value which would cause errors once transferred to the database
         public string genreField2 { get; set; }
         public string genreField3 { get; set; }
         public string genreField4 { get; set; }
