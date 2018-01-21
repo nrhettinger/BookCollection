@@ -192,7 +192,7 @@ namespace BookCollection
                 {
                     break;
                 }
-                insertGenre.Parameters.Clear();
+                insertGenre.Parameters.Clear(); //Used to clear out previous values
                 insertGenre.Parameters.Add(new SqlParameter("@G", genre));
                 insertGenre.ExecuteNonQuery();
                 insertB_IDAndG_ID.Parameters.Clear();
