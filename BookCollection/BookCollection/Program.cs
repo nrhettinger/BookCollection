@@ -192,7 +192,7 @@ namespace BookCollection
                 {
                     break;
                 }
-                insertGenre.Parameters.Clear(); //Used to clear out previous values
+                insertGenre.Parameters.Clear(); //Used to clear out previous previous passed in values in the stored procedure. Without this, each time the loop runs more values get passed into the parameter of the stored procedure. The values get lumped together and increase with each pass through. Clearing the parameter ensures that only one value is sent into the parameter per pass through.
                 insertGenre.Parameters.Add(new SqlParameter("@G", genre));
                 insertGenre.ExecuteNonQuery();
                 insertB_IDAndG_ID.Parameters.Clear();
