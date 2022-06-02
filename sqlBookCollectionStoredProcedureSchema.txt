@@ -1,0 +1,233 @@
+create procedure [dbo].[spDeleteBook]
+@rID nvarchar(255),
+@rType nvarchar(255)
+as
+begin
+if (@rType = "ISBN")
+	delete from Books where ISBN = @rID
+if (@rType = "Title")
+	delete from Books where Title = @rID
+end
+GO
+
+create procedure spDeleteGenre
+@G varchar(255),
+@rName varchar(255),
+@rID varchar(255)
+as 
+begin
+declare @query nvarchar(max);
+set @query = 'delete from bookgenres where book = (select b_id from books where '+@rName+'=@rID) and genre = (select g_id from Genres where Genre=@G)'
+if (@rName = 'Title' or @rName = 'ISBN')
+	exec sp_executesql @query, N'@rID varchar(255), @G varchar(255)', @rID=@rID, @G=@G;
+end
+
+CREATE procedure spDeleteOldGenres
+@rName varchar(255),
+@rID varchar(255)
+as 
+begin
+declare @query nvarchar(max);
+set @query = 'delete from bookgenres where book = (select b_id from books where '+@rName+' = @rID)'
+	exec sp_executesql @query, N'@rID varchar(255)', @rID = @rID;
+end	
+
+CREATE Procedure [dbo].[spInsertA_ID]
+@FirstName nvarchar(255),
+@LastName nvarchar(255),
+@Title nvarchar(255)
+as
+Begin
+   update Books set Books.Author = (select A_ID from authors 
+   where Authors.FirstName = @FirstName and Authors.LastName = @LastName)
+   where Books.Title = @Title
+End
+GO
+
+create procedure spInsertB_IDAndG_ID
+@G varchar(255),
+@T varchar(255)
+as
+begin
+select * from BookGenres where Genre = (select g_id from Genres where Genre = @G) and Book = (select b_id from books where title = @T)
+if @@ROWCOUNT = 0
+	insert into BookGenres(Genre, Book) values 
+	(
+	(select g_id from Genres where Genre = @G),
+	(select b_id from books where title = @T)
+	)
+end
+
+CREATE procedure [dbo].[spInsertBookAndAuthor]
+@I nvarchar (13),
+@T nvarchar (255),
+@S nvarchar (255),
+@R nvarchar (255),
+@AF nvarchar (255),
+@AL nvarchar (255)
+as
+begin
+Insert into Books (ISBN, Title, Series, Review) values (@I, @T, @S, @R)
+select * from Authors where FirstName = @AF and LastName = @AL
+if @@ROWCOUNT=0
+	Insert into Authors (FirstName, LastName) values (@AF, @AL)
+end
+
+CREATE PROCEDURE [dbo].[spSearchByAuthor]
+@AF varchar(255),
+@AL varchar(255)
+as
+BEGIN
+select *, concat(Authors.FirstName, Authors.LastName) as Author
+from Books
+inner join Authors
+on Books.Author=Authors.A_ID
+where Authors.FirstName = @AF
+and Authors.LastName = @AL
+END
+GO
+
+create procedure [dbo].[spSearchByISBN]
+@I nvarchar(255)
+as
+begin
+select *, concat(Authors.FirstName, Authors.LastName) as Author from Books
+inner join Authors on books.Author = authors.A_ID
+where ISBN = @I
+end;
+
+create PROCEDURE [dbo].[spSearchBySeries] 
+@S varchar(255)
+as
+BEGIN
+select * from Books where Series = @S
+end
+
+CREATE procedure [dbo].[spSearchByTitle]
+@T varchar(255)
+as
+BEGIN
+Select * from Books join Authors on Author=A_ID where books.title = @T order by Title
+end
+GO
+
+CREATE procedure [dbo].[spUpdateAuthor]
+@VN1 nvarchar (255),
+@VN2 nvarchar(255),
+@rID nvarchar(255),
+@rName nvarchar(255)
+as
+begin
+if (@rName = "ISBN")
+	if exists (select A_ID from Authors where FirstName = @VN1 			and LastName = @VN2)
+				update Books set Author = (select A_ID 					from Authors where FirstName = @VN1 and 					LastName = @VN2 where isbn = @rID;
+	else 
+		insert into Authors (FirstName, LastName) value 			(@VN1, @VN2);
+		update Books set Author = (select A_ID from Authors 			where FirstName = @VN1 and LastName = @VN2)where isbn 		= @rID;
+if (@rName = "Title")
+	if exists (select A_ID from Authors where FirstName = @VN1 			and LastName = @VN2)
+				update Books set Author = (select A_ID 					from Authors where FirstName = @VN1 and 					LastName = @VN2) where Title = @rID;
+	else 
+		insert into Authors (FirstName, LastName) values 			(@VN1, @VN2);
+		update Books set Author = (select A_ID from Authors 			where FirstName = @VN1 and LastName = @VN2)where 			Title = @rID;
+end
+
+CREATE procedure spUpdateField
+@VN nvarchar (max),
+@rID nvarchar (255),
+@rName nvarchar (255),
+@rField nvarchar (255),
+@tName nvarchar (255)
+as 
+begin
+declare @query nvarchar(max)
+declare @passedValue nvarchar(255)
+set @passedValue = @VN;
+if (@VN = '')
+	set @passedValue = null;
+set @query = 'update '+@tName+' set '+@rField+' = @passedValue where '+@rName+' = @rID'
+if (@rName = 'Title' or @rName = 'ISBN')
+	exec sp_executesql @query, N'@rID varchar(255), 	@passedValue varchar(255)', @rID = @rID, @passedValue = 	@passedValue;
+end
+
+create procedure [dbo].[spUpdateISBN]
+@VN nvarchar (13),
+@rID nvarchar (255),
+@rName nvarchar (255)
+as
+begin
+if (@rName = "ISBN")
+	update Books set ISBN = @VN where ISBN = @rID
+if (@rName = "Title")
+	update Books set ISBN = @VN where Title = @rID
+end
+
+CREATE procedure [dbo].[spUpdateReview]
+@VN nvarchar (max),
+@rID nvarchar (255),
+@rName nvarchar (255)
+as 
+begin
+if (@rName = "ISBN")
+	update books set review = @VN where ISBN = @rID;
+if (@rName = "Title")
+	update books set review = @VN where Title = @rID;
+end
+GO
+
+/****** Object:  StoredProcedure [dbo].[spUpdateSeries]    Script Date: 8/13/2016 8:34:05 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
+CREATE procedure [dbo].[spUpdateSeries]
+@VN nvarchar (255),
+@rID nvarchar (255),
+@rName nvarchar (255)
+as 
+begin
+if (@rName = "ISBN")
+	update books set Series = @VN where ISBN = @rID
+if (@rName = "Title")
+	update books set Series = @VN where Title = @rID
+end
+GO
+
+/****** Object:  StoredProcedure [dbo].[spUpdateTitle]    Script Date: 8/13/2016 8:34:05 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
+CREATE procedure [dbo].[spUpdateTitle]
+@rID varchar(255),
+@rName varchar(255),
+@VN varchar(255)
+as
+begin
+if (@rName = "ISBN")
+	update Books set Title = @VN where ISBN = @rID
+if (@rname = "Title")
+	update Books set Title = @VN where Title = @rID
+end
+GO
+
+/****** Object:  StoredProcedure [dbo].[spViewAllBooks]    Script Date: 8/13/2016 8:34:05 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[spViewAllBooks]
+as
+BEGIN
+Select * from Books join Authors on Author=A_ID order by Title;
+END
+
+GO
+
+
